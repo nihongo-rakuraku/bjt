@@ -530,6 +530,20 @@ mark rt{font-weight:400}
   .mm-blk{display:none} .mm-blk.on{display:block} .mm-blk h3{display:none}
   .mm-toc-foot{position:static;background:none;padding-top:8px}
 }
+/* từ vựng N2: danh sách từ của chủ đề, chia phần */
+.mm-name i.jp{font-family:var(--mincho);font-size:13px;color:var(--seal)}
+.wl-part{margin-top:14px}
+.wl-ph{display:flex;align-items:baseline;gap:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.wl-ph b{font-family:var(--serif);font-weight:600;font-size:15px}
+.wl-ph small{color:var(--muted);font-size:12px}
+.wl-ph .mini{margin-left:auto}
+.wl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}
+.wl li{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr) auto;grid-template-areas:"w r s" "m m s";column-gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line-2)}
+.wl-w{grid-area:w;font-size:17px;font-weight:600}
+.wl-r{grid-area:r;font-size:12.5px;color:var(--muted)}
+.wl-m{grid-area:m;font-size:13px;color:var(--ink-2);line-height:1.45}
+.wl .speak{grid-area:s;align-self:center}
+@media (max-width:640px){ .wl{grid-template-columns:minmax(0,1fr)} }
 </style>
 <script>try{const t=localStorage.getItem('bjtvocab:theme');if(t)document.documentElement.dataset.theme=JSON.parse(t);if(localStorage.getItem('bjtvocab:ruby')==='false')document.documentElement.classList.add('noruby');}catch(e){}</script>
 </head>
@@ -715,7 +729,7 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
   MODULES[MODULE] = {
     key:MODULE, name:N2?'Từ vựng N2':'Từ vựng', title:N2?'Ôn tập từ vựng N2':'Ôn tập từ vựng', quizTitle:N2?'Kiểm tra từ vựng N2':'Kiểm tra từ vựng', unit:'từ', exam:N2?'JLPT N2':'BJT',
     items: DATA,
-    sets: SETS, setOfGroup: k => (groups.find(g=>g.k===k)||{}).set,
+    sets: N2 ? null : SETS, setOfGroup: k => (groups.find(g=>g.k===k)||{}).set,   // N2: chọn qua mục lục chủ đề, không khoá theo tab
     groupTitle:'Chọn bài', groupSub:SETS[0].sub,
     groups, groupOf,
     quick:[['all','Chọn tất cả'],['none','Bỏ chọn']],
@@ -767,6 +781,50 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
     summary: v => ({title:`${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}`, sub:`${esc(shortMeaning(v.m||''))} · ${N2?esc(v.gl):'Bài '+v.l}`}),
     autoplay: (q,v) => ({text:v.r||mainForm(v.w), key:N2?v.au:'w/'+v.id}),
   };
+  // N2: mục lục bên trái (lĩnh vực → chủ đề, tick để ôn), bên phải danh sách từ của chủ đề đang xem, chia theo phần (= bài)
+  if(N2){
+    const TOPICS=[...new Map(DATA.map(v=>[v.tp,{k:v.tp,n:v.tn,ja:v.tja,set:v.set}])).values()];
+    const DOMS=[...new Map(DATA.map(v=>[v.set,{k:v.set,n:v.dn,ja:v.dja}])).values()].map(d=>({...d, t:TOPICS.filter(t=>t.set===d.k)}));
+    const gOf = tp => groups.filter(g=>g.tp===tp).map(g=>g.k);
+    let curTp=null;
+    const Mv=MODULES[MODULE]; Mv.groupsInMap=true; Mv.defaultGroups=gOf(TOPICS[0].k);   // lần đầu: chọn trọn chủ đề đầu tiên
+    Mv.renderMap = () => {
+      if(curTp===null){ curTp=store.get('n2vmap', TOPICS[0].k); if(!TOPICS.some(t=>t.k===curTp)) curTp=TOPICS[0].k; }
+      document.body.classList.add('mm-wide');
+      const P=$('#mapPanel'); P.classList.remove('hidden');
+      const T=TOPICS.find(t=>t.k===curTp), D=DOMS.find(d=>d.k===T.set), parts=gOf(curTp);
+      const tick = tp => { const gs=gOf(tp), n=gs.filter(g=>prefs.groups.includes(g)).length; return n===0?'':n===gs.length?'checked':'data-part'; };
+      const nTicked = prefs.groups.filter(g=>groups.some(x=>x.k===g)).length;
+      const row = t => { const vs=DATA.filter(v=>v.tp===t.k), known=vs.filter(v=>stats[v.id]&&stats[v.id].c>0).length;
+        return `<div class="mm-item ${t.k===curTp?'on':''}"><label class="mm-tick" title="Chọn để ôn"><input type="checkbox" data-vt-tick="${t.k}" ${tick(t.k)}></label>
+          <button class="mm-name" data-vt="${t.k}"><i class="jp">${esc((t.ja||'').slice(0,1))}</i><span>${esc(t.n)} <small>${vs.length}</small></span><em><b style="width:${known/vs.length*100}%"></b></em></button></div>`; };
+      const wordRow = v => `<li><span class="wl-w jp">${esc(v.w)}</span><span class="wl-r jp">${esc(v.r||'')}</span><span class="wl-m">${esc(v.m||'')}</span>${spk(v.r||mainForm(v.w),v.au)}</li>`;
+      P.innerHTML = `<h2>Mục lục chủ đề</h2><p class="sub">Chọn chủ đề ở mục lục để xem danh sách từ; tick các chủ đề muốn ôn rồi bấm “Ôn các chủ đề đã chọn”. Mỗi chủ đề chia thành vài phần khoảng 20 từ.</p>
+        <div class="mm-layout">
+          <aside class="mm-toc">
+            <div class="mm-blocks">${DOMS.map(d=>`<button class="mm-tab ${d===D?'on':''}" data-vt="${d.t[0].k}"><i class="jp">${esc(d.ja.slice(0,1))}</i>${esc(d.n)}</button>`).join('')}</div>
+            ${DOMS.map(d=>`<section class="mm-blk ${d===D?'on':''}"><h3><span class="jp">${esc(d.ja.slice(0,1))}</span>${esc(d.n)}</h3>${d.t.map(row).join('')}</section>`).join('')}
+            <div class="mm-toc-foot"><button class="btn" data-vt-ticked ${nTicked?'':'disabled'}>Ôn các chủ đề đã chọn${nTicked?` (${prefs.groups.filter(g=>groups.some(x=>x.k===g)).reduce((n,g)=>n+ITEMS.filter(v=>groupOf(v)===g).length,0)} từ)`:''}</button></div>
+          </aside>
+          <div class="mm-main">
+            <div class="mm-head"><b>${esc(T.n)}</b> <span class="jp">${esc(T.ja||'')}</span><p>${esc(D.n)} · ${DATA.filter(v=>v.tp===curTp).length} từ · ${parts.length} phần</p></div>
+            ${parts.map((g,i)=>{ const vs=DATA.filter(v=>groupOf(v)===g); return `<div class="wl-part"><div class="wl-ph"><b>Phần ${i+1}</b><small>${vs.length} từ</small><button class="mini" data-vt-go="${g}">Ôn phần này →</button></div><ol class="wl">${vs.map(wordRow).join('')}</ol></div>`; }).join('')}
+            <div class="row mm-go"><button class="btn" data-vt-go="${parts.join(',')}">Ôn cả chủ đề · ${DATA.filter(v=>v.tp===curTp).length} từ</button></div>
+          </div>
+        </div>`;
+      P.querySelectorAll('[data-part]').forEach(c=>c.indeterminate=true);
+      { const on=P.querySelector('.mm-blocks .on'), bar=on&&on.parentNode; if(on && bar.scrollWidth>bar.clientWidth) bar.scrollLeft = on.offsetLeft - bar.offsetLeft - (bar.clientWidth - on.offsetWidth)/2; }
+      const start = gs => { prefs.groups=gs; renderSetup(); startSession(chooseItems(poolFor(prefs.groups),prefs.types,prefs.mode)); };
+      P.onchange = e => { const t=e.target.closest('[data-vt-tick]'); if(!t) return; const gs=gOf(t.dataset.vtTick);
+        prefs.groups = t.checked ? [...new Set([...prefs.groups,...gs])] : prefs.groups.filter(x=>!gs.includes(x)); renderSetup(); };
+      P.onclick = e => {
+        const b=e.target.closest('[data-vt],[data-vt-go],[data-vt-ticked]'); if(!b) return;
+        if(b.dataset.vt){ curTp=b.dataset.vt; store.set('n2vmap',curTp); Mv.renderMap(); if(innerWidth>860) P.querySelector('.mm-main').scrollIntoView({block:'nearest'}); }
+        else if(b.dataset.vtGo){ start(b.dataset.vtGo.split(',')); }
+        else if(b.dataset.vtTicked!==undefined){ start(prefs.groups.filter(g=>groups.some(x=>x.k===g))); }
+      };
+    };
+  }
 }
 
 /* ---------------- Ngữ pháp ---------------- */
@@ -1047,7 +1105,7 @@ const M = MODULES[MODULE];
 const ITEMS = M.items;
 const byId = Object.fromEntries(ITEMS.map(v=>[v.id,v]));
 let stats = store.get('stats', {});
-let prefs = Object.assign({groups:[M.groups[0].k], types:M.types.map(t=>t.k), mode:'weak', instant:true, order:{}},
+let prefs = Object.assign({groups:M.defaultGroups||[M.groups[0].k], types:M.types.map(t=>t.k), mode:'weak', instant:true, order:{}},
                           store.get('prefs:'+M.key, {}));
 prefs.groups = prefs.groups.filter(g=>M.groups.some(x=>x.k===g));
 // ?nhom=N (e.g. from the listening page) preselects one lesson/group

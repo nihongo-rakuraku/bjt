@@ -558,6 +558,20 @@ mark rt{font-weight:400}
   .mm-blk{display:none} .mm-blk.on{display:block} .mm-blk h3{display:none}
   .mm-toc-foot{position:static;background:none;padding-top:8px}
 }
+/* từ vựng N2: danh sách từ của chủ đề, chia phần */
+.mm-name i.jp{font-family:var(--mincho);font-size:13px;color:var(--seal)}
+.wl-part{margin-top:14px}
+.wl-ph{display:flex;align-items:baseline;gap:8px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.wl-ph b{font-family:var(--serif);font-weight:600;font-size:15px}
+.wl-ph small{color:var(--muted);font-size:12px}
+.wl-ph .mini{margin-left:auto}
+.wl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:22px}
+.wl li{display:grid;grid-template-columns:minmax(0,auto) minmax(0,1fr) auto;grid-template-areas:"w r s" "m m s";column-gap:8px;align-items:baseline;padding:7px 0;border-bottom:1px dashed var(--line-2)}
+.wl-w{grid-area:w;font-size:17px;font-weight:600}
+.wl-r{grid-area:r;font-size:12.5px;color:var(--muted)}
+.wl-m{grid-area:m;font-size:13px;color:var(--ink-2);line-height:1.45}
+.wl .speak{grid-area:s;align-self:center}
+@media (max-width:640px){ .wl{grid-template-columns:minmax(0,1fr)} }
 </style>
 <script>try{const t=localStorage.getItem('bjtvocab:theme');if(t)document.documentElement.dataset.theme=JSON.parse(t);}catch(e){}</script>
 </head>
