@@ -626,10 +626,12 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
       for(const x of row) if(x!==c && !(x==='を')){ const a=ch.slice(); a[i]=x; out.add(a.join('')); } });
     out.delete(r); return [...out].filter(s=>!/^[っんー]/.test(s)); };
   const readingOptions = v => { const r=v.r; let pool=shuffle(mutations(r));
+    // cách đọc cũng đúng (v.alt, vd 依存 いそん) hoặc cách đọc của cùng chữ ở mục khác (辛い つらい/からい) không làm nhiễu
+    const ok=[r, ...(v.alt||[]), ...DATA.filter(o=>o.w===v.w && o.r).map(o=>o.r)];
     if(pool.length<3) pool=pool.concat(shuffle(vowelSwaps(r)));
     if(pool.length<3) pool=pool.concat(shuffle(pool.flatMap(mutations)).filter(x=>x!==r));
-    let res=pickN(pool,3,[r]);
-    if(res.length<3) res=res.concat(pickN(DATA.filter(o=>o.r && /^[ぁ-ん]+$/.test(o.r) && Math.abs(o.r.length-r.length)<=1).map(o=>o.r),3-res.length,[r,...res]));
+    let res=pickN(pool,3,ok);
+    if(res.length<3) res=res.concat(pickN(DATA.filter(o=>o.r && /^[ぁ-ん]+$/.test(o.r) && Math.abs(o.r.length-r.length)<=1).map(o=>o.r),3-res.length,[...ok,...res]));
     return res; };
   // o cannot be a distractor for v when it would also be a right answer: same or nested meaning,
   // same kanji stem (折り合い/折り合う), or one written form inside the other (解決/解決策)
@@ -704,14 +706,14 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
         options: shuffle([{t:hit.f,ok:true},...others(v,pool,3,o=>mainForm(o.w),o=>wordClass(o.w)===cls&&!s.includes(mainForm(o.w))&&!hit.f.includes(mainForm(o.w))&&!mainForm(o.w).includes(hit.f)).map(x=>({t:x,ok:false}))])};
     },
     explain(q,v,right){
-      const ex=v.ex.map((e,k)=>`<div class="ex"><div class="j jp">${rb(e[0])} ${spk(e[0],N2?null:`e/${v.id}-${k}`)}</div><div class="v">${esc(e[1])}</div></div>`).join('');
+      const ex=v.ex.map((e,k)=>`<div class="ex"><div class="j jp">${rb(e[0])} ${spk(e[0],N2?(v.eau||[])[k]:`e/${v.id}-${k}`)}</div><div class="v">${esc(e[1])}</div></div>`).join('');
       return `<div class="explain ${right?'':'wrong'}">
-        <div class="w jp">${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}${spk(v.r||mainForm(v.w),N2?null:'w/'+v.id)}</div>
+        <div class="w jp">${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}${spk(v.r||mainForm(v.w),N2?v.au:'w/'+v.id)}</div>
         <div class="m">${esc(v.m||'')}${v.s?' <span class="en">(～する)</span>':''}</div>
         <div class="en">${esc(v.en||'')} · Bài ${v.l}</div>${ex}</div>`;
     },
     summary: v => ({title:`${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}`, sub:`${esc(shortMeaning(v.m||''))} · Bài ${v.l}`}),
-    autoplay: (q,v) => ({text:v.r||mainForm(v.w), key:N2?null:'w/'+v.id}),
+    autoplay: (q,v) => ({text:v.r||mainForm(v.w), key:N2?v.au:'w/'+v.id}),
   };
 }
 
@@ -866,7 +868,10 @@ if(MODULE==='keigo'){
 /* ---------------- Ngữ pháp JLPT N2: 14 bài theo sơ đồ tư duy Thảo Lê JP ---------------- */
 if(MODULE==='grammar-n2'){
   const LESSONS=[...new Set(DATA.map(v=>v.bai))];
-  const groups=LESSONS.map(b=>({k:String(b),label:'Bài '+b}));
+  // bài chuyên đề (sau 14 bài theo sơ đồ) có tên riêng
+  const TOPIC = {15:'Sai khiến · Bị động'};
+  const lname = b => TOPIC[b] || 'Bài '+b;
+  const groups=LESSONS.map(b=>({k:String(b),label:lname(b)}));
   const core = p => p.replace(/[〜~（）()\s]/g,'');
   // mẫu cùng hình thức / gần nghĩa (khai báo hai chiều) không được làm đáp án nhiễu của nhau
   const simOf = Object.fromEntries(DATA.map(v=>[v.id,new Set([v.id,...(v.similar||[])])]));
@@ -884,7 +889,7 @@ if(MODULE==='grammar-n2'){
   MODULES['grammar-n2'] = {
     key:'grammar-n2', exam:'JLPT N2', name:'Ngữ pháp N2', title:'Ôn tập ngữ pháp N2', quizTitle:'Kiểm tra ngữ pháp N2', unit:'mẫu',
     items: DATA,
-    groupTitle:'Chọn bài', groupSub:`${DATA.length} mẫu ngữ pháp N2, ${LESSONS.length} bài theo sơ đồ tư duy. Mỗi lượt tối đa 20 câu.`,
+    groupTitle:'Chọn bài', groupSub:`${DATA.length} mẫu ngữ pháp N2: ${LESSONS.filter(b=>!TOPIC[b]).length} bài theo sơ đồ tư duy + chuyên đề. Mỗi lượt tối đa 20 câu.`,
     groups, groupOf: v=>String(v.bai),
     quick:[['all','Chọn tất cả'],['none','Bỏ chọn'],['1-7','Bài 1–7'],['8-14','Bài 8–14']],
     select: k => k==='all'?groups.map(g=>g.k) : k==='none'?[] : groups.filter(g=>{ const [a,b]=k.split('-').map(Number); return +g.k>=a&&+g.k<=b; }).map(g=>g.k),
@@ -914,10 +919,10 @@ if(MODULE==='grammar-n2'){
       const exs = q.ex ? [q.ex, ...v.ex.filter(e=>e!==q.ex)] : v.ex;
       // câu ★: hiện cả câu đúng thứ tự, đánh số 1–4 từng mảnh, mảnh ★ tô vàng
       const starHTML = q.star ? `<div class="ex star-ans"><div class="j jp">${esc(q.star.pre)}${q.star.parts.map((x,k)=>`<span class="sp${k===2?' on':''}"><i>${k===2?'★':k+1}</i>${esc(x)}</span>`).join('')}${esc(q.star.post)}</div><div class="v">${esc(q.star.vi)}</div></div>` : '';
-      return `<div class="explain ${right?'':'wrong'}"><div class="w jp">${esc(v.p)} <small>Bài ${v.bai} · ${String(v.n).padStart(2,'0')}</small></div>
+      return `<div class="explain ${right?'':'wrong'}"><div class="w jp">${esc(v.p)} <small>${lname(v.bai)} · ${String(v.n).padStart(2,'0')}</small></div>
         ${starHTML}${noteHTML(v)}${exs.map(exLine).join('')}</div>`;
     },
-    summary: v => ({title:esc(v.p), sub:`${esc(v.m)} · Bài ${v.bai}`}),
+    summary: v => ({title:esc(v.p), sub:`${esc(v.m)} · ${lname(v.bai)}`}),
   };
   // sơ đồ tư duy ở đầu trang: mỗi bài một nhánh, bấm mẫu để mở cấu trúc + ví dụ
   let mapBai = null, open = null;
@@ -926,12 +931,12 @@ if(MODULE==='grammar-n2'){
     const P=$('#mapPanel'); P.classList.remove('hidden');
     const items=DATA.filter(v=>v.bai===mapBai);
     P.innerHTML = `<h2>Sơ đồ tư duy</h2><p class="sub">Chọn bài để xem toàn bộ mẫu. Bấm vào một mẫu để xem cấu trúc và câu ví dụ.</p>
-      <div class="series" id="mmTabs">${LESSONS.map(b=>`<button class="stab ${b===mapBai?'on':''}" data-mm-bai="${b}">Bài ${b}<small>${DATA.filter(v=>v.bai===b).length}</small></button>`).join('')}</div>
-      <div class="mm"><div class="mm-root"><span>BÀI</span><b>${mapBai}</b></div>
+      <div class="series" id="mmTabs">${LESSONS.map(b=>`<button class="stab ${b===mapBai?'on':''}" data-mm-bai="${b}">${lname(b)}<small>${DATA.filter(v=>v.bai===b).length}</small></button>`).join('')}</div>
+      <div class="mm"><div class="mm-root"><span>${TOPIC[mapBai]?'CHUYÊN ĐỀ':'BÀI'}</span><b>${mapBai}</b></div>
         <ol class="mm-list">${items.map((v,i)=>`<li class="mm-row c${i%6} ${open===v.id?'open':''}">
           <button class="mm-node" data-mm="${v.id}" aria-expanded="${open===v.id}"><span class="mm-n">${String(v.n).padStart(2,'0')}</span><span class="mm-p jp">${esc(v.p)}</span><span class="mm-m">${esc(v.m)}</span></button>
           ${open===v.id?`<div class="mm-detail">${v.ex.length?`<div class="mm-tools">${rubyBtn()}</div>`:''}${noteHTML(v,false)}${v.ex.map(exLine).join('')||'<p class="mm-note">Chưa có câu ví dụ.</p>'}</div>`:''}</li>`).join('')}</ol></div>
-      <div class="row mm-go"><button class="btn" data-mm-go="${mapBai}">Ôn bài ${mapBai} · ${items.length} mẫu</button></div>`;
+      <div class="row mm-go"><button class="btn" data-mm-go="${mapBai}">Ôn ${TOPIC[mapBai]?lname(mapBai):'bài '+mapBai} · ${items.length} mẫu</button></div>`;
     const on=P.querySelector('#mmTabs .stab.on'); if(on) on.parentNode.scrollLeft = on.offsetLeft - on.parentNode.offsetLeft - (on.parentNode.clientWidth - on.offsetWidth)/2;
     P.onclick = e => {
       const b=e.target.closest('[data-mm],[data-mm-bai],[data-mm-go]'); if(!b) return;
