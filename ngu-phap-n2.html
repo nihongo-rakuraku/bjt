@@ -647,9 +647,10 @@ const rb = (s, hl=[]) => {
 /* ===================== modules ===================== */
 const MODULES = {};
 
-/* ---------------- Từ vựng (BJT; JLPT N2 dùng chung, bộ khác) ---------------- */
-if(MODULE==='vocab' || MODULE==='vocab-n2'){
-  const N2 = MODULE==='vocab-n2';
+/* ---------------- Từ vựng (BJT; JLPT N2/N3 dùng chung, bộ khác) ---------------- */
+if(MODULE==='vocab' || MODULE==='vocab-n2' || MODULE==='vocab-n3'){
+  const N2 = MODULE!=='vocab';   // chế độ JLPT (N2 hoặc N3): chia theo lĩnh vực/chủ đề, mục lục bên trái
+  const LV = MODULE==='vocab-n3' ? 'N3' : 'N2';
   const hasKanji = s => /[一-鿿々]/.test(s);
   const isKata = s => /^[゠-ヿー・Ａ-Ｚa-zA-Z0-9\s]+$/.test(s);
   const forms = w => { const out=[]; const m=w.match(/^(.*?)（(.*?)）(.*)$/);
@@ -714,7 +715,7 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
 
   // vocab comes in sets ("bộ"): the 2200-word book (45 lessons) and the 600+ list. Items of the 2200 set keep group key = lesson
   // number, so progress saved before keeps working; items of another set carry v.set and use group key "set:lesson".
-  const BASE = N2 ? 'n2' : '2200';
+  const BASE = N2 ? LV.toLowerCase() : '2200';
   const setOf = v => v.set || BASE;
   const groupOf = v => setOf(v)===BASE ? String(v.l) : setOf(v)+':'+v.l;
   const groups=[]; DATA.forEach(v=>{ const k=groupOf(v); if(!groups.some(g=>g.k===k)) groups.push({k, label:v.gl||String(v.l), set:setOf(v), tp:v.tp}); });
@@ -727,7 +728,7 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
     {k:'600', label:'600+ từ thường gặp', sub:'Tổng hợp 600+ từ vựng BJT thường gặp.', quick:[]},
   ]).map(s=>({...s, count:DATA.filter(v=>setOf(v)===s.k).length}));
   MODULES[MODULE] = {
-    key:MODULE, name:N2?'Từ vựng N2':'Từ vựng', title:N2?'Ôn tập từ vựng N2':'Ôn tập từ vựng', quizTitle:N2?'Kiểm tra từ vựng N2':'Kiểm tra từ vựng', unit:'từ', exam:N2?'JLPT N2':'BJT',
+    key:MODULE, name:N2?'Từ vựng '+LV:'Từ vựng', title:N2?'Ôn tập từ vựng '+LV:'Ôn tập từ vựng', quizTitle:N2?'Kiểm tra từ vựng '+LV:'Kiểm tra từ vựng', unit:'từ', exam:N2?'JLPT '+LV:'BJT',
     items: DATA,
     sets: N2 ? null : SETS, setOfGroup: k => (groups.find(g=>g.k===k)||{}).set,   // N2: chọn qua mục lục chủ đề, không khoá theo tab
     groupTitle:'Chọn bài', groupSub:SETS[0].sub,
@@ -789,7 +790,7 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
     let curTp=null;
     const Mv=MODULES[MODULE]; Mv.groupsInMap=true; Mv.defaultGroups=gOf(TOPICS[0].k);   // lần đầu: chọn trọn chủ đề đầu tiên
     Mv.renderMap = () => {
-      if(curTp===null){ curTp=store.get('n2vmap', TOPICS[0].k); if(!TOPICS.some(t=>t.k===curTp)) curTp=TOPICS[0].k; }
+      if(curTp===null){ curTp=store.get(LV.toLowerCase()+'vmap', TOPICS[0].k); if(!TOPICS.some(t=>t.k===curTp)) curTp=TOPICS[0].k; }
       document.body.classList.add('mm-wide');
       const P=$('#mapPanel'); P.classList.remove('hidden');
       const T=TOPICS.find(t=>t.k===curTp), D=DOMS.find(d=>d.k===T.set), parts=gOf(curTp);
@@ -819,7 +820,7 @@ if(MODULE==='vocab' || MODULE==='vocab-n2'){
         prefs.groups = t.checked ? [...new Set([...prefs.groups,...gs])] : prefs.groups.filter(x=>!gs.includes(x)); renderSetup(); };
       P.onclick = e => {
         const b=e.target.closest('[data-vt],[data-vt-go],[data-vt-ticked]'); if(!b) return;
-        if(b.dataset.vt){ curTp=b.dataset.vt; store.set('n2vmap',curTp); Mv.renderMap(); if(innerWidth>860) P.querySelector('.mm-main').scrollIntoView({block:'nearest'}); }
+        if(b.dataset.vt){ curTp=b.dataset.vt; store.set(LV.toLowerCase()+'vmap',curTp); Mv.renderMap(); if(innerWidth>860) P.querySelector('.mm-main').scrollIntoView({block:'nearest'}); }
         else if(b.dataset.vtGo){ start(b.dataset.vtGo.split(',')); }
         else if(b.dataset.vtTicked!==undefined){ start(prefs.groups.filter(g=>groups.some(x=>x.k===g))); }
       };
@@ -975,8 +976,9 @@ if(MODULE==='keigo'){
   };
 }
 
-/* ---------------- Ngữ pháp JLPT N2: 14 bài theo sơ đồ tư duy Thảo Lê JP ---------------- */
-if(MODULE==='grammar-n2'){
+/* ---------------- Ngữ pháp JLPT N2/N3: nhóm nghĩa, mục lục + sơ đồ tư duy ---------------- */
+if(MODULE==='grammar-n2' || MODULE==='grammar-n3'){
+  const LV = MODULE==='grammar-n3' ? 'N3' : 'N2', MAPKEY = LV==='N2' ? 'n2map' : 'n3map';
   const LESSONS=[...new Set(DATA.map(v=>v.bai))];
   // bài chuyên đề (sau 14 bài theo sơ đồ) có tên riêng
   // bài = nhóm nghĩa; tên nhóm (v.gn, v.gja) và lời giới thiệu (v.gd) đi kèm dữ liệu
@@ -997,10 +999,10 @@ if(MODULE==='grammar-n2'){
   // withM: phần giải thích cần nhắc lại nghĩa; trong sơ đồ nghĩa đã nằm ngay cạnh mẫu
   const noteHTML = (v, withM=true) => (v.kt||withM ? `<dl class="gnote">${v.kt?`<dt>Cấu trúc</dt><dd class="jp">${esc(v.kt)}</dd>`:''}${withM?`<dt>Nghĩa</dt><dd>${esc(v.m)}</dd>`:''}</dl>` : '')
     + (v.note?`<p class="mm-note">${esc(v.note)}</p>`:'');
-  MODULES['grammar-n2'] = {
-    key:'grammar-n2', exam:'JLPT N2', name:'Ngữ pháp N2', title:'Ôn tập ngữ pháp N2', quizTitle:'Kiểm tra ngữ pháp N2', unit:'mẫu',
+  MODULES[MODULE] = {
+    key:MODULE, exam:'JLPT '+LV, name:'Ngữ pháp '+LV, title:'Ôn tập ngữ pháp '+LV, quizTitle:'Kiểm tra ngữ pháp '+LV, unit:'mẫu',
     items: DATA,
-    groupTitle:'Chọn nhóm', groupSub:`${DATA.length} mẫu ngữ pháp N2 chia theo ${LESSONS.length} nhóm nghĩa. Mỗi lượt tối đa 20 câu.`, wideGroups:true,
+    groupTitle:'Chọn nhóm', groupSub:`${DATA.length} mẫu ngữ pháp ${LV} chia theo ${LESSONS.length} nhóm nghĩa. Mỗi lượt tối đa 20 câu.`, wideGroups:true,
     groups, groupOf: v=>String(v.bai),
     quick:[['all','Chọn tất cả'],['none','Bỏ chọn']],
     select: k => k==='all'?groups.map(g=>g.k) : k==='none'?[] : groups.filter(g=>{ const [a,b]=k.split('-').map(Number); return +g.k>=a&&+g.k<=b; }).map(g=>g.k),
@@ -1037,7 +1039,8 @@ if(MODULE==='grammar-n2'){
   };
   // sơ đồ tư duy ở đầu trang: mỗi bài một nhánh, bấm mẫu để mở cấu trúc + ví dụ
   // 16 nhóm gom vào 5 khối lớn cho mục lục (số = nhóm trong dữ liệu, v.bai)
-  const BLOCKS = [
+  // khối lấy từ dữ liệu (v.bk, v.bkn, v.bkja) nếu có; N2 cũ dùng danh sách dưới
+  const BLOCKS = DATA[0].bk ? [...new Map(DATA.map(v=>[v.bk,{k:v.bk,n:v.bkn,ja:v.bkja,g:[...new Set(DATA.filter(x=>x.bk===v.bk).map(x=>x.bai))]}])).values()] : [
     {k:'time', n:'Thời gian', ja:'時', g:[1,2]},
     {k:'cause', n:'Nguyên nhân – kết quả', ja:'因', g:[3,4,5]},
     {k:'scope', n:'Đối chiếu – phạm vi', ja:'対', g:[6,7,8,9,10]},
@@ -1046,9 +1049,9 @@ if(MODULE==='grammar-n2'){
   ].map(bl=>({...bl, g:bl.g.filter(b=>LESSONS.includes(b))})).filter(bl=>bl.g.length);
   { const listed=BLOCKS.flatMap(bl=>bl.g), rest=LESSONS.filter(b=>!listed.includes(b)); if(rest.length) BLOCKS.push({k:'other', n:'Khác', ja:'他', g:rest}); }
   let mapBai = null, open = null;
-  MODULES['grammar-n2'].groupsInMap = true;   // chọn nhóm để ôn bằng ô tick trong mục lục, ẩn khung "Chọn nhóm" chung
-  MODULES['grammar-n2'].renderMap = () => {
-    if(mapBai===null){ mapBai=+store.get('n2map', LESSONS[0]); if(!LESSONS.includes(mapBai)) mapBai=LESSONS[0]; }  // store có sau khi app.js chạy
+  MODULES[MODULE].groupsInMap = true;   // chọn nhóm để ôn bằng ô tick trong mục lục, ẩn khung "Chọn nhóm" chung
+  MODULES[MODULE].renderMap = () => {
+    if(mapBai===null){ mapBai=+store.get(MAPKEY, LESSONS[0]); if(!LESSONS.includes(mapBai)) mapBai=LESSONS[0]; }  // store có sau khi app.js chạy
     document.body.classList.add('mm-wide');
     const P=$('#mapPanel'); P.classList.remove('hidden');
     const items=DATA.filter(v=>v.bai===mapBai), cur=BLOCKS.find(bl=>bl.g.includes(mapBai));
@@ -1059,8 +1062,8 @@ if(MODULE==='grammar-n2'){
     P.innerHTML = `<h2>Mục lục · sơ đồ tư duy</h2><p class="sub">Chọn nhóm ở mục lục để xem sơ đồ; tick các nhóm muốn ôn rồi bấm “Ôn các nhóm đã chọn”. Bấm vào một mẫu để xem cấu trúc và câu ví dụ.</p>
       <div class="mm-layout">
         <aside class="mm-toc">
-          <div class="mm-blocks">${BLOCKS.map(bl=>`<button class="mm-tab ${bl===cur?'on':''}" data-mm-bai="${bl.g[0]}"><i class="jp">${bl.ja}</i>${esc(bl.n)}</button>`).join('')}</div>
-          ${BLOCKS.map(bl=>`<section class="mm-blk ${bl===cur?'on':''}"><h3><span class="jp">${bl.ja}</span>${esc(bl.n)}</h3>${bl.g.map(row).join('')}</section>`).join('')}
+          <div class="mm-blocks">${BLOCKS.map(bl=>`<button class="mm-tab ${bl===cur?'on':''}" data-mm-bai="${bl.g[0]}"><i class="jp" title="${esc(bl.ja)}">${esc([...bl.ja][0])}</i>${esc(bl.n)}</button>`).join('')}</div>
+          ${BLOCKS.map(bl=>`<section class="mm-blk ${bl===cur?'on':''}"><h3><span class="jp" title="${esc(bl.ja)}">${esc([...bl.ja][0])}</span>${esc(bl.n)}</h3>${bl.g.map(row).join('')}</section>`).join('')}
           <div class="mm-toc-foot"><button class="btn" data-mm-ticked ${ticked.length?'':'disabled'}>Ôn các nhóm đã chọn${ticked.length?` (${ticked.length})`:''}</button></div>
         </aside>
         <div class="mm-main">
@@ -1078,8 +1081,8 @@ if(MODULE==='grammar-n2'){
       prefs.groups = t.checked ? [...new Set([...prefs.groups,g])] : prefs.groups.filter(x=>x!==g); renderSetup(); };
     P.onclick = e => {
       const b=e.target.closest('[data-mm],[data-mm-bai],[data-mm-go],[data-mm-ticked]'); if(!b) return;
-      if(b.dataset.mmBai){ mapBai=+b.dataset.mmBai; open=null; store.set('n2map',mapBai); MODULES['grammar-n2'].renderMap(); }
-      else if(b.dataset.mm){ open = open===b.dataset.mm ? null : b.dataset.mm; MODULES['grammar-n2'].renderMap(); }
+      if(b.dataset.mmBai){ mapBai=+b.dataset.mmBai; open=null; store.set(MAPKEY,mapBai); MODULES[MODULE].renderMap(); }
+      else if(b.dataset.mm){ open = open===b.dataset.mm ? null : b.dataset.mm; MODULES[MODULE].renderMap(); }
       else if(b.dataset.mmGo){ start([b.dataset.mmGo]); }
       else if(b.dataset.mmTicked!==undefined){ start(ticked); }
     };

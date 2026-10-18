@@ -611,14 +611,22 @@ mark rt{font-weight:400}
       <div class="arrow">→</div></a>
   </div>
   <!-- JLPT đang chuẩn bị, chia theo cấp N3 / N2: mở phần nào thì đổi <div class="tile soon"> thành <a class="tile" href="..."> -->
-  <div class="exam" data-exam="jlpt" data-hero="Chia theo cấp N3 và N2. Đã có từ vựng và ngữ pháp N2, các phần khác sẽ mở dần.">
+  <div class="exam" data-exam="jlpt" data-hero="Chia theo cấp N3 và N2. Đã có từ vựng và ngữ pháp cho cả hai cấp, đọc hiểu và nghe hiểu sẽ mở dần.">
     <div class="levels" id="levels">
       <button class="pill" data-level="n3">N3<small>中級</small></button>
       <button class="pill" data-level="n2">N2<small>中上級</small></button>
     </div>
     <div class="tiles" data-level="n3">
-      <div class="tile soon"><div class="kj">語彙</div><div><h3>Từ vựng · Chữ Hán N3</h3><p>Cách đọc, chữ Hán, chọn từ đúng ngữ cảnh ở trình độ N3.</p></div><div class="soonbadge">更新中<small>Sắp có</small></div></div>
-      <div class="tile soon"><div class="kj">文法</div><div><h3>Ngữ pháp N3</h3><p>Mẫu ngữ pháp N3, điền vào câu và sắp xếp câu.</p></div><div class="soonbadge">更新中<small>Sắp có</small></div></div>
+      <a class="tile" href="tu-vung-n3.html" data-prefix="n3v" data-total="1957">
+        <div class="kj">語彙</div>
+        <div><h3>Từ vựng N3</h3><p>1957 từ chia theo chủ đề (con người, đời sống, công việc, phó từ…). Cách đọc, ý nghĩa, chọn từ, điền vào câu.</p>
+          <div class="prog"><div class="bar"><i></i></div><span></span></div></div>
+        <div class="arrow">→</div></a>
+      <a class="tile" href="ngu-phap-n3.html" data-prefix="n3g" data-total="169">
+        <div class="kj">文法</div>
+        <div><h3>Ngữ pháp N3</h3><p>169 mẫu chia theo nhóm nghĩa, mỗi nhóm có sơ đồ tư duy. Điền mẫu, chọn nghĩa, sắp xếp câu ★.</p>
+          <div class="prog"><div class="bar"><i></i></div><span></span></div></div>
+        <div class="arrow">→</div></a>
       <div class="tile soon"><div class="kj">読解</div><div><h3>Đọc hiểu N3</h3><p>Đoạn văn ngắn, trung bình, dài và tìm thông tin.</p></div><div class="soonbadge">更新中<small>Sắp có</small></div></div>
       <div class="tile soon"><div class="kj">聴解</div><div><h3>Nghe hiểu N3</h3><p>Nghe hội thoại, chọn đáp án theo từng dạng bài.</p></div><div class="soonbadge">更新中<small>Sắp có</small></div></div>
     </div>
@@ -640,8 +648,8 @@ mark rt{font-weight:400}
 </div></main>
 <script>
 let stats={}; try{ stats=JSON.parse(localStorage.getItem('bjtvocab:stats')||'{}'); }catch(e){}
-const kindOf = id => id.startsWith('n2v-') ? 'n2v' : id.startsWith('n2-') ? 'n2g' : id.startsWith('g') ? 'grammar' : id.startsWith('k') ? 'keigo' : 'vocab';
-const known = {vocab:0, grammar:0, keigo:0, listen:0, n2g:0, n2v:0};
+const kindOf = id => id.startsWith('n3v-') ? 'n3v' : id.startsWith('n3-') ? 'n3g' : id.startsWith('n2v-') ? 'n2v' : id.startsWith('n2-') ? 'n2g' : id.startsWith('g') ? 'grammar' : id.startsWith('k') ? 'keigo' : 'vocab';
+const known = {vocab:0, grammar:0, keigo:0, listen:0, n2g:0, n2v:0, n3g:0, n3v:0};
 for(const [id,s] of Object.entries(stats)) if(s.c>0) known[kindOf(id)]++;
 try{ known.listen = Object.keys(JSON.parse(localStorage.getItem('bjtvocab:listened')||'{}')).length; }catch(e){}
 document.querySelectorAll('.tile[data-prefix]').forEach(c=>{
