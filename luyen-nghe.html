@@ -344,7 +344,9 @@ const vlabel = v => v.label || ('Bài ' + v.bai);
 const vhash = v => v.key ? v.key.replace(/^([a-z]+)/,'$1-') : 'bai-' + v.bai;
 const sname = k => (SERIES.find(s=>s.k===k)||{}).label || k;
 const fromHash = () => V.findIndex(v=>'#'+vhash(v)===location.hash);
-let cur = fromHash(); if(cur<0) cur = Math.max(0, V.findIndex(v=>vkey(v)===String(store.get('listenLast', vkey(V[0])))));
+// video shown first: link #… > the one watched last time > DEFAULT (first-time visitors)
+const DEFAULT = '1';  // 2200-word set, lesson 1
+let cur = fromHash(); if(cur<0) cur = Math.max(0, V.findIndex(v=>vkey(v)===String(store.get('listenLast', DEFAULT))));
 let series = V[cur].series, part = 'all';
 const inSeries = () => V.map((v,i)=>({v,i})).filter(({v})=>v.series===series);
 
