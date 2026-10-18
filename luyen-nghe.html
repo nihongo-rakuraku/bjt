@@ -449,6 +449,72 @@ body{overflow-x:hidden}
   .back{padding:6px 10px}
   .top{gap:8px}
 }
+
+/* ルビ (furigana) trên câu ví dụ */
+ruby{ruby-position:over}
+rt{font-size:.5em;font-weight:400;color:var(--ink-2);letter-spacing:0;font-family:"Noto Sans JP",sans-serif;user-select:none}
+mark rt{font-weight:400}
+.noruby rt{visibility:hidden}
+.explain .verdict{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rubybtn{font:600 12px/1 "Noto Sans JP",sans-serif;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;flex:none}
+.rubybtn.on{border-color:var(--accent);color:var(--accent)}
+.rubybtn:hover{border-color:var(--accent)}
+.mm-tools{display:flex;justify-content:flex-end;margin-bottom:4px}
+.explain .ex .j,.explain .ln .jp,.kex-i .jp{line-height:2.1}
+
+/* ===== sơ đồ tư duy ngữ pháp N2: gốc BÀI bên trái, trục dọc, mỗi mẫu một nhánh (mẫu → nghĩa) ===== */
+.mm{display:grid;grid-template-columns:88px 1fr;align-items:center;margin-top:16px}
+.mm-root{position:relative;border:1.5px solid var(--seal);color:var(--seal);border-radius:4px;padding:12px 6px 10px;text-align:center;font-family:var(--mincho);background:var(--card)}
+.mm-root span{display:block;font-size:12px;letter-spacing:.3em;font-family:var(--serif)}
+.mm-root b{display:block;font-size:34px;line-height:1.1;font-weight:600}
+.mm-root::after{content:"";position:absolute;left:100%;top:50%;width:22px;border-top:1.5px solid var(--line)}
+.mm-list{list-style:none;margin:0 0 0 22px;padding:0 0 0 20px}
+.mm-row{position:relative;padding:4px 0}
+.mm-row::before{content:"";position:absolute;left:-20px;top:26px;width:16px;border-top:1.5px solid var(--line)}
+.mm-row::after{content:"";position:absolute;left:-20px;top:0;bottom:0;border-left:1.5px solid var(--line)}
+.mm-row:first-child::after{top:26px}
+.mm-row:last-child::after{bottom:auto;height:26px}
+.mm-node{display:grid;grid-template-columns:24px minmax(0,1fr) minmax(0,1.1fr);gap:10px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:0;color:inherit;font:inherit}
+.mm-n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.mm-p{background:var(--c);border:1px solid var(--cb);border-radius:10px;padding:9px 14px;font-weight:600;font-size:16px;line-height:1.45;color:#2f2e2c;transition:box-shadow .15s}
+.mm-m{position:relative;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13.5px;line-height:1.5;color:var(--ink-2);background:var(--card)}
+.mm-m::before{content:"";position:absolute;right:100%;top:50%;width:10px;border-top:1px solid var(--line)}
+.mm-node:hover .mm-p,.mm-row.open .mm-p{box-shadow:0 0 0 2px var(--accent)}
+.mm-detail{margin:8px 0 8px 34px;padding:10px 14px 12px;border-left:2px solid var(--accent);background:var(--card)}
+.mm-detail .gnote{margin-top:0}
+.mm-detail .ex{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.mm-detail .ex .j{font-size:16.5px;line-height:2.1} .mm-detail .ex .v{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.mm-note{margin:6px 0 0;font-size:13.5px;line-height:1.65;color:var(--ink-2)}
+.mm-go{margin-top:16px}
+#mmTabs{margin-top:4px}
+#mmTabs .stab{flex:0 0 auto;white-space:nowrap}
+.explain .w small{font-size:12.5px;color:var(--muted);font-weight:500;margin-left:8px}
+.mm-row.c0{--c:#f6dfca;--cb:#e3c3a4} .mm-row.c1{--c:#dfeccd;--cb:#bfd3a6} .mm-row.c2{--c:#f6d7da;--cb:#e2b3b8}
+.mm-row.c3{--c:#d3e7ee;--cb:#a9cad6} .mm-row.c4{--c:#f5e8bc;--cb:#ddca8a} .mm-row.c5{--c:#e6dcf0;--cb:#c7b6dc}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .mm-p{color:#ece7d8}
+  :root:not([data-theme="light"]) .mm-row.c0{--c:#4a3a2c;--cb:#6a523d} :root:not([data-theme="light"]) .mm-row.c1{--c:#34442c;--cb:#4d6340} :root:not([data-theme="light"]) .mm-row.c2{--c:#4a2f33;--cb:#6b454b}
+  :root:not([data-theme="light"]) .mm-row.c3{--c:#26404a;--cb:#3a5c69} :root:not([data-theme="light"]) .mm-row.c4{--c:#4a4226;--cb:#6a5f37} :root:not([data-theme="light"]) .mm-row.c5{--c:#3b3249;--cb:#56496a} }
+:root[data-theme="dark"] .mm-p{color:#ece7d8}
+:root[data-theme="dark"] .mm-row.c0{--c:#4a3a2c;--cb:#6a523d} :root[data-theme="dark"] .mm-row.c1{--c:#34442c;--cb:#4d6340} :root[data-theme="dark"] .mm-row.c2{--c:#4a2f33;--cb:#6b454b}
+:root[data-theme="dark"] .mm-row.c3{--c:#26404a;--cb:#3a5c69} :root[data-theme="dark"] .mm-row.c4{--c:#4a4226;--cb:#6a5f37} :root[data-theme="dark"] .mm-row.c5{--c:#3b3249;--cb:#56496a}
+@media (max-width:640px){
+  .mm{grid-template-columns:1fr}
+  .mm-root{justify-self:start;display:flex;align-items:baseline;gap:8px;padding:5px 14px;margin-bottom:8px}
+  .mm-root b{font-size:24px} .mm-root::after{display:none}
+  .mm-list{margin-left:8px;padding-left:16px}
+  .mm-row::before{left:-16px;width:12px} .mm-row::after{left:-16px}
+  .mm-node{grid-template-columns:20px minmax(0,1fr);gap:6px 8px}
+  .mm-m{grid-column:2;font-size:13px;padding:6px 10px} .mm-m::before{display:none}
+  .mm-p{font-size:15px;padding:8px 12px}
+  .mm-detail{margin-left:10px;padding:8px 10px 10px}
+}
+.crumb small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* câu sắp xếp ★ (並べ替え) */
+.star-slot{min-width:3.2em;text-align:center;color:var(--accent);font-weight:700}
+.star-ans .sp{display:inline-block;border-bottom:2px solid var(--line);margin:0 2px;padding:0 2px}
+.star-ans .sp i{font-style:normal;font-size:.55em;color:var(--muted);vertical-align:super;margin-right:2px}
+.star-ans .sp.on{background:linear-gradient(transparent 62%,var(--hl) 62%);border-bottom-color:var(--accent);font-weight:700}
+.star-ans .sp.on i{color:var(--accent)}
 </style>
 <script>try{const t=localStorage.getItem('bjtvocab:theme');if(t)document.documentElement.dataset.theme=JSON.parse(t);}catch(e){}</script>
 </head>

@@ -413,8 +413,74 @@ body{overflow-x:hidden}
   .back{padding:6px 10px}
   .top{gap:8px}
 }
+
+/* ルビ (furigana) trên câu ví dụ */
+ruby{ruby-position:over}
+rt{font-size:.5em;font-weight:400;color:var(--ink-2);letter-spacing:0;font-family:"Noto Sans JP",sans-serif;user-select:none}
+mark rt{font-weight:400}
+.noruby rt{visibility:hidden}
+.explain .verdict{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.rubybtn{font:600 12px/1 "Noto Sans JP",sans-serif;padding:5px 9px;border-radius:999px;border:1px solid var(--line);background:none;color:var(--muted);cursor:pointer;flex:none}
+.rubybtn.on{border-color:var(--accent);color:var(--accent)}
+.rubybtn:hover{border-color:var(--accent)}
+.mm-tools{display:flex;justify-content:flex-end;margin-bottom:4px}
+.explain .ex .j,.explain .ln .jp,.kex-i .jp{line-height:2.1}
+
+/* ===== sơ đồ tư duy ngữ pháp N2: gốc BÀI bên trái, trục dọc, mỗi mẫu một nhánh (mẫu → nghĩa) ===== */
+.mm{display:grid;grid-template-columns:88px 1fr;align-items:center;margin-top:16px}
+.mm-root{position:relative;border:1.5px solid var(--seal);color:var(--seal);border-radius:4px;padding:12px 6px 10px;text-align:center;font-family:var(--mincho);background:var(--card)}
+.mm-root span{display:block;font-size:12px;letter-spacing:.3em;font-family:var(--serif)}
+.mm-root b{display:block;font-size:34px;line-height:1.1;font-weight:600}
+.mm-root::after{content:"";position:absolute;left:100%;top:50%;width:22px;border-top:1.5px solid var(--line)}
+.mm-list{list-style:none;margin:0 0 0 22px;padding:0 0 0 20px}
+.mm-row{position:relative;padding:4px 0}
+.mm-row::before{content:"";position:absolute;left:-20px;top:26px;width:16px;border-top:1.5px solid var(--line)}
+.mm-row::after{content:"";position:absolute;left:-20px;top:0;bottom:0;border-left:1.5px solid var(--line)}
+.mm-row:first-child::after{top:26px}
+.mm-row:last-child::after{bottom:auto;height:26px}
+.mm-node{display:grid;grid-template-columns:24px minmax(0,1fr) minmax(0,1.1fr);gap:10px;align-items:center;width:100%;text-align:left;border:0;background:none;padding:0;color:inherit;font:inherit}
+.mm-n{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.mm-p{background:var(--c);border:1px solid var(--cb);border-radius:10px;padding:9px 14px;font-weight:600;font-size:16px;line-height:1.45;color:#2f2e2c;transition:box-shadow .15s}
+.mm-m{position:relative;border:1px solid var(--line);border-radius:10px;padding:8px 12px;font-size:13.5px;line-height:1.5;color:var(--ink-2);background:var(--card)}
+.mm-m::before{content:"";position:absolute;right:100%;top:50%;width:10px;border-top:1px solid var(--line)}
+.mm-node:hover .mm-p,.mm-row.open .mm-p{box-shadow:0 0 0 2px var(--accent)}
+.mm-detail{margin:8px 0 8px 34px;padding:10px 14px 12px;border-left:2px solid var(--accent);background:var(--card)}
+.mm-detail .gnote{margin-top:0}
+.mm-detail .ex{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.mm-detail .ex .j{font-size:16.5px;line-height:2.1} .mm-detail .ex .v{font-size:13.5px;color:var(--ink-2);line-height:1.5}
+.mm-note{margin:6px 0 0;font-size:13.5px;line-height:1.65;color:var(--ink-2)}
+.mm-go{margin-top:16px}
+#mmTabs{margin-top:4px}
+#mmTabs .stab{flex:0 0 auto;white-space:nowrap}
+.explain .w small{font-size:12.5px;color:var(--muted);font-weight:500;margin-left:8px}
+.mm-row.c0{--c:#f6dfca;--cb:#e3c3a4} .mm-row.c1{--c:#dfeccd;--cb:#bfd3a6} .mm-row.c2{--c:#f6d7da;--cb:#e2b3b8}
+.mm-row.c3{--c:#d3e7ee;--cb:#a9cad6} .mm-row.c4{--c:#f5e8bc;--cb:#ddca8a} .mm-row.c5{--c:#e6dcf0;--cb:#c7b6dc}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .mm-p{color:#ece7d8}
+  :root:not([data-theme="light"]) .mm-row.c0{--c:#4a3a2c;--cb:#6a523d} :root:not([data-theme="light"]) .mm-row.c1{--c:#34442c;--cb:#4d6340} :root:not([data-theme="light"]) .mm-row.c2{--c:#4a2f33;--cb:#6b454b}
+  :root:not([data-theme="light"]) .mm-row.c3{--c:#26404a;--cb:#3a5c69} :root:not([data-theme="light"]) .mm-row.c4{--c:#4a4226;--cb:#6a5f37} :root:not([data-theme="light"]) .mm-row.c5{--c:#3b3249;--cb:#56496a} }
+:root[data-theme="dark"] .mm-p{color:#ece7d8}
+:root[data-theme="dark"] .mm-row.c0{--c:#4a3a2c;--cb:#6a523d} :root[data-theme="dark"] .mm-row.c1{--c:#34442c;--cb:#4d6340} :root[data-theme="dark"] .mm-row.c2{--c:#4a2f33;--cb:#6b454b}
+:root[data-theme="dark"] .mm-row.c3{--c:#26404a;--cb:#3a5c69} :root[data-theme="dark"] .mm-row.c4{--c:#4a4226;--cb:#6a5f37} :root[data-theme="dark"] .mm-row.c5{--c:#3b3249;--cb:#56496a}
+@media (max-width:640px){
+  .mm{grid-template-columns:1fr}
+  .mm-root{justify-self:start;display:flex;align-items:baseline;gap:8px;padding:5px 14px;margin-bottom:8px}
+  .mm-root b{font-size:24px} .mm-root::after{display:none}
+  .mm-list{margin-left:8px;padding-left:16px}
+  .mm-row::before{left:-16px;width:12px} .mm-row::after{left:-16px}
+  .mm-node{grid-template-columns:20px minmax(0,1fr);gap:6px 8px}
+  .mm-m{grid-column:2;font-size:13px;padding:6px 10px} .mm-m::before{display:none}
+  .mm-p{font-size:15px;padding:8px 12px}
+  .mm-detail{margin-left:10px;padding:8px 10px 10px}
+}
+.crumb small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* câu sắp xếp ★ (並べ替え) */
+.star-slot{min-width:3.2em;text-align:center;color:var(--accent);font-weight:700}
+.star-ans .sp{display:inline-block;border-bottom:2px solid var(--line);margin:0 2px;padding:0 2px}
+.star-ans .sp i{font-style:normal;font-size:.55em;color:var(--muted);vertical-align:super;margin-right:2px}
+.star-ans .sp.on{background:linear-gradient(transparent 62%,var(--hl) 62%);border-bottom-color:var(--accent);font-weight:700}
+.star-ans .sp.on i{color:var(--accent)}
 </style>
-<script>try{const t=localStorage.getItem('bjtvocab:theme');if(t)document.documentElement.dataset.theme=JSON.parse(t);}catch(e){}</script>
+<script>try{const t=localStorage.getItem('bjtvocab:theme');if(t)document.documentElement.dataset.theme=JSON.parse(t);if(localStorage.getItem('bjtvocab:ruby')==='false')document.documentElement.classList.add('noruby');}catch(e){}</script>
 </head>
 <body>
 <header class="top">
@@ -426,6 +492,7 @@ body{overflow-x:hidden}
 </header>
 <main class="wrap">
   <section id="setup" class="col">
+    <div class="panel hidden" id="mapPanel"></div>
     <div class="panel">
       <div class="series hidden" id="sets"></div>
       <h2 id="groupTitle"></h2>
@@ -497,11 +564,27 @@ body{overflow-x:hidden}
 const MODULE = 'keigo';
 const DATA = [{"id":"kv1","kind":"verb","b":"する","son":["なさる","される"],"ken":["いたす","させていただく"],"tei":["します"],"note":"いたす: việc mình tự làm; させていただく: làm nhờ được đối phương cho phép / có lợi cho mình","ex":[{"k":"son","ja":"部長は明日のゴルフをなさいますか。","hl":"なさいます","vi":"Trưởng phòng có chơi golf vào ngày mai không ạ?","au":"t/e1233d55812c"},{"k":"ken","ja":"資料の準備は私がいたします。","hl":"いたします","vi":"Việc chuẩn bị tài liệu, xin để tôi làm.","au":"t/e9e5fabfce39"}]},{"id":"kv2","kind":"verb","b":"言う","son":["おっしゃる","言われる"],"ken":["申す","申し上げる"],"tei":["言います"],"note":"","ex":[{"k":"son","ja":"社長がおっしゃったとおり、来月から新しい制度が始まります。","hl":"おっしゃった","vi":"Đúng như giám đốc đã nói, từ tháng sau chế độ mới sẽ bắt đầu.","au":"t/86f86b337e42"},{"k":"ken","ja":"営業部の山田と申します。","hl":"申します","vi":"Tôi tên là Yamada, ở phòng kinh doanh.","au":"t/dd4db2cbd199"}]},{"id":"kv3","kind":"verb","b":"行く","son":["行かれる","いらっしゃる","おいでになる","お越しになる"],"ken":["伺う","参る"],"tei":["行きます"],"note":"","ex":[{"k":"son","ja":"部長は何時ごろ大阪へいらっしゃいますか。","hl":"いらっしゃいます","vi":"Khoảng mấy giờ trưởng phòng đi Osaka ạ?","au":"t/79adbb8e39fe"},{"k":"ken","ja":"明日の午後、御社へ伺います。","hl":"伺います","vi":"Chiều mai tôi sẽ đến quý công ty.","au":"t/41681f3e2520"}]},{"id":"kv4","kind":"verb","b":"来る","son":["いらっしゃる","おいでになる","見える","お越しになる"],"ken":["参る","伺う"],"tei":["来ます"],"note":"","ex":[{"k":"son","ja":"A社の田中様が見えました。","hl":"見えました","vi":"Ông Tanaka của công ty A đã đến rồi ạ.","au":"t/d8358a4eec1d"},{"k":"ken","ja":"担当の者がすぐに参りますので、少々お待ちください。","hl":"参ります","vi":"Người phụ trách sẽ đến ngay, xin vui lòng đợi một chút.","au":"t/8e5e3891d0b5"}]},{"id":"kv5","kind":"verb","b":"知っている","son":["ご存じです"],"ken":["存じる","存じ上げる","承知する"],"tei":["知っています"],"note":"","ex":[{"k":"son","ja":"この件について、何かご存じですか。","hl":"ご存じです","vi":"Về việc này, anh/chị có biết gì không ạ?","au":"t/7a185c2a2c2c"},{"k":"ken","ja":"お名前はかねてより存じ上げております。","hl":"存じ上げております","vi":"Tôi đã được biết đến tên của ngài từ lâu.","au":"t/d472fdafae06"}]},{"id":"kv6","kind":"verb","b":"食べる","son":["召し上がる"],"ken":["いただく","頂戴する"],"tei":["食べます"],"note":"","ex":[{"k":"son","ja":"どうぞ、冷めないうちに召し上がってください。","hl":"召し上がって","vi":"Xin mời dùng khi còn nóng ạ.","au":"t/526c7177b9f4"},{"k":"ken","ja":"おいしそうですね。では、遠慮なくいただきます。","hl":"いただきます","vi":"Trông ngon quá. Vậy tôi xin phép dùng ạ, không khách sáo.","au":"t/680ea62f41fb"}]},{"id":"kv7","kind":"verb","b":"いる","son":["いらっしゃる","おいでになる"],"ken":["おる"],"tei":["います"],"note":"","ex":[{"k":"son","ja":"明日の午後は会社にいらっしゃいますか。","hl":"いらっしゃいます","vi":"Chiều mai anh/chị có ở công ty không ạ?","au":"t/dd926a11f0ef"},{"k":"ken","ja":"本日は一日中、事務所におります。","hl":"おります","vi":"Hôm nay tôi ở văn phòng cả ngày.","au":"t/a0d839966086"}]},{"id":"kv8","kind":"verb","b":"見る","son":["ご覧になる"],"ken":["拝見する","見せていただく"],"tei":["見ます"],"note":"","ex":[{"k":"son","ja":"先日お送りした資料はご覧になりましたか。","hl":"ご覧になりました","vi":"Anh/chị đã xem tài liệu tôi gửi hôm trước chưa ạ?","au":"t/08915036215c"},{"k":"ken","ja":"企画書を拝見しました。","hl":"拝見しました","vi":"Tôi đã xem bản kế hoạch rồi ạ.","au":"t/97fe7bc5a2ad"}]},{"id":"kv9","kind":"verb","b":"見せる","son":["お見せになる","お示しになる"],"ken":["お見せする","ご覧に入れる","お目にかける"],"tei":["見せます"],"note":"","ex":[{"k":"son","ja":"田中様は会議で新しい試作品をお見せになりました。","hl":"お見せになりました","vi":"Ông Tanaka đã cho xem mẫu thử mới trong cuộc họp.","au":"t/b7a92567c60e"},{"k":"ken","ja":"新製品のサンプルをお目にかけます。","hl":"お目にかけます","vi":"Tôi xin được cho quý vị xem mẫu sản phẩm mới.","au":"t/6d6e26258a9c"}]},{"id":"kv10","kind":"verb","b":"聞く","son":["お聞きになる"],"ken":["拝聴する","伺う"],"tei":["聞きます"],"note":"","ex":[{"k":"son","ja":"この話は、もう部長からお聞きになりましたか。","hl":"お聞きになりました","vi":"Chuyện này anh/chị đã nghe trưởng phòng nói chưa ạ?","au":"t/beb2c39c808d"},{"k":"ken","ja":"少しお話を伺ってもよろしいでしょうか。","hl":"伺って","vi":"Tôi có thể hỏi chuyện một chút được không ạ?","au":"t/cd8efcdaeba3"}]},{"id":"kv11","kind":"verb","b":"聞かせる","son":["お聞かせになる"],"ken":["お耳に入れる"],"tei":["聞かせます"],"note":"","ex":[{"k":"son","ja":"率直なご意見をお聞かせください。","hl":"お聞かせください","vi":"Xin hãy cho chúng tôi nghe ý kiến thẳng thắn của anh/chị.","au":"t/f84ba188e593"},{"k":"ken","ja":"ぜひ社長のお耳に入れておきたいことがございます。","hl":"お耳に入れて","vi":"Có một việc tôi nhất định muốn báo để giám đốc được biết.","au":"t/ffacf912dc73"}]},{"id":"kv12","kind":"verb","b":"読む","son":["お読みになる"],"ken":["拝読する"],"tei":["読みます"],"note":"","ex":[{"k":"son","ja":"この本はもうお読みになりましたか。","hl":"お読みになりました","vi":"Anh/chị đã đọc cuốn sách này chưa ạ?","au":"t/02c2d658da28"},{"k":"ken","ja":"先生のご著書を拝読しました。","hl":"拝読しました","vi":"Tôi đã đọc tác phẩm của thầy rồi ạ.","au":"t/9c5d1a7cf3fa"}]},{"id":"kv13","kind":"verb","b":"座る","son":["お掛けになる"],"ken":["座らせていただく"],"tei":["座ります"],"note":"","ex":[{"k":"son","ja":"どうぞ、こちらにお掛けください。","hl":"お掛けください","vi":"Xin mời ngồi ở đây ạ.","au":"t/701b0b861d46"},{"k":"ken","ja":"では、こちらに座らせていただきます。","hl":"座らせていただきます","vi":"Vậy tôi xin phép ngồi ở đây.","au":"t/cda0b817626a"}]},{"id":"kv14","kind":"verb","b":"会う","son":["お会いになる","会われる"],"ken":["お目にかかる"],"tei":["会います"],"note":"","ex":[{"k":"son","ja":"社長は昨日、A社の会長とお会いになりました。","hl":"お会いになりました","vi":"Hôm qua giám đốc đã gặp chủ tịch công ty A.","au":"t/cf8e2aa742c8"},{"k":"ken","ja":"お目にかかれて光栄です。","hl":"お目にかかれて","vi":"Rất vinh hạnh được gặp ngài.","au":"t/41caba4c2184"}]},{"id":"kv15","kind":"verb","b":"伝える","son":["お伝えになる"],"ken":["申し伝える"],"tei":["伝えます"],"note":"申し伝える cũng là khiêm nhường ngữ của 言い伝える","ex":[{"k":"son","ja":"この件は、もう皆さんにお伝えになりましたか。","hl":"お伝えになりました","vi":"Việc này anh/chị đã báo cho mọi người chưa ạ?","au":"t/2a1b04e99849"},{"k":"ken","ja":"田中が戻りましたら、そのように申し伝えます。","hl":"申し伝えます","vi":"Khi anh Tanaka về, tôi sẽ chuyển lời như vậy.","au":"t/83b1a60f0f2e"}]},{"id":"kv16","kind":"verb","b":"訪ねる","son":["お訪ねになる","訪ねられる"],"ken":["お訪ねする","伺う","お伺いする","参上する","参る","上がる","お邪魔する"],"tei":["訪ねます"],"note":"","ex":[{"k":"son","ja":"どちらの方をお訪ねになりますか。","hl":"お訪ねになります","vi":"Anh/chị đến gặp vị nào ạ?","au":"t/6ca62df0ccb0"},{"k":"ken","ja":"来週、改めてご挨拶にお伺いします。","hl":"お伺いします","vi":"Tuần sau tôi sẽ lại đến chào hỏi ạ.","au":"t/1e0370365242"}]},{"id":"kv17","kind":"verb","b":"わかる","son":["おわかりになる"],"ken":["かしこまる","承知する"],"tei":["わかりました"],"note":"","ex":[{"k":"son","ja":"会場までの道順はおわかりになりますか。","hl":"おわかりになります","vi":"Anh/chị có biết đường đến hội trường không ạ?","au":"t/d95041c9355b"},{"k":"ken","ja":"かしこまりました。すぐにお持ちします。","hl":"かしこまりました","vi":"Vâng, tôi hiểu rồi ạ. Tôi sẽ mang đến ngay.","au":"t/5c863e45d52f"}]},{"id":"kv18","kind":"verb","b":"受け取る","son":["お受け取りになる"],"ken":["頂戴する","拝受する","賜る"],"tei":["受け取ります"],"note":"","ex":[{"k":"son","ja":"お荷物はもうお受け取りになりましたか。","hl":"お受け取りになりました","vi":"Anh/chị đã nhận hàng chưa ạ?","au":"t/4a692c9b4749"},{"k":"ken","ja":"お送りいただいた資料、確かに拝受しました。","hl":"拝受しました","vi":"Tôi đã nhận được tài liệu anh/chị gửi rồi ạ.","au":"t/6f9918bac72d"}]},{"id":"kv19","kind":"verb","b":"利用する","son":["ご利用になる","利用なさる"],"ken":["利用させていただく"],"tei":["利用します"],"note":"","ex":[{"k":"son","ja":"こちらの会議室をご利用になりますか。","hl":"ご利用になります","vi":"Anh/chị có sử dụng phòng họp này không ạ?","au":"t/e924a10daecc"},{"k":"ken","ja":"御社のシステムを利用させていただいております。","hl":"利用させていただいております","vi":"Chúng tôi đang sử dụng hệ thống của quý công ty.","au":"t/45276dfc1c7c"}]},{"id":"kv20","kind":"verb","b":"思う","son":["お思いになる","おぼし召す"],"ken":["存じる","拝察する"],"tei":["思います"],"note":"","ex":[{"k":"son","ja":"この案について、どのようにお思いになりますか。","hl":"お思いになります","vi":"Anh/chị nghĩ thế nào về phương án này ạ?","au":"t/0d35993a8f38"},{"k":"ken","ja":"大変ありがたく存じます。","hl":"存じます","vi":"Tôi vô cùng biết ơn.","au":"t/c485083e11fc"}]},{"id":"kv21","kind":"verb","b":"買う","son":["お求めになる","お買い求めになる","お買いになる","お買い上げになる","ご購入になる"],"ken":["買わせていただく"],"tei":["買います"],"note":"","ex":[{"k":"son","ja":"こちらの商品はどちらでお求めになりましたか。","hl":"お求めになりました","vi":"Anh/chị đã mua sản phẩm này ở đâu ạ?","au":"t/7ffe387fd6d1"},{"k":"ken","ja":"では、こちらを二つ買わせていただきます。","hl":"買わせていただきます","vi":"Vậy tôi xin mua hai cái này.","au":"t/d55e0acef2dd"}]},{"id":"kv22","kind":"verb","b":"考える","son":["お考えになる","ご高察なさる","ご高察くださる"],"ken":["拝察する","愚考する","検討いたす"],"tei":["考えます"],"note":"","ex":[{"k":"son","ja":"新しい企画について、部長はどうお考えになりますか。","hl":"お考えになります","vi":"Trưởng phòng nghĩ thế nào về kế hoạch mới ạ?","au":"t/e9391e10dd9f"},{"k":"ken","ja":"ご提案の件は、社内で検討いたします。","hl":"検討いたします","vi":"Đề xuất của anh/chị, chúng tôi sẽ xem xét trong công ty.","au":"t/4715a357da90"}]},{"id":"kv23","kind":"verb","b":"待つ","son":["お待ちになる"],"ken":["お待ちする"],"tei":["待ちます"],"note":"","ex":[{"k":"son","ja":"長い間お待ちになりましたか。","hl":"お待ちになりました","vi":"Anh/chị đã phải đợi lâu chưa ạ?","au":"t/fa9857023005"},{"k":"ken","ja":"ご連絡をお待ちしております。","hl":"お待ちしております","vi":"Chúng tôi xin chờ liên lạc của anh/chị.","au":"t/0e45bc16cb4d"}]},{"id":"kv24","kind":"verb","b":"帰る","son":["お帰りになる","帰られる"],"ken":["失礼する"],"tei":["帰ります"],"note":"","ex":[{"k":"son","ja":"お客様はもうお帰りになりました。","hl":"お帰りになりました","vi":"Vị khách đã về rồi ạ.","au":"t/e448036dc05c"},{"k":"ken","ja":"では、本日はこれで失礼します。","hl":"失礼します","vi":"Vậy hôm nay tôi xin phép về trước.","au":"t/16fe65b98cd2"}]},{"id":"kv25","kind":"verb","b":"与える","son":["お与えになる"],"ken":["差し上げる"],"tei":["与えます"],"note":"","ex":[{"k":"son","ja":"社長は優秀な社員に賞をお与えになりました。","hl":"お与えになりました","vi":"Giám đốc đã trao giải cho những nhân viên xuất sắc.","au":"t/9078708c8798"},{"k":"ken","ja":"ご来場の皆様に記念品を差し上げます。","hl":"差し上げます","vi":"Chúng tôi xin tặng quà lưu niệm cho quý khách đến dự.","au":"t/da902483cee5"}]},{"id":"kv26","kind":"verb","b":"もらう","son":["お受け取りになる","お納めになる"],"ken":["いただく","頂戴する","賜る"],"tei":["もらいます"],"note":"","ex":[{"k":"son","ja":"心ばかりの品ですが、どうぞお納めください。","hl":"お納めください","vi":"Chỉ là chút quà mọn, xin anh/chị nhận cho.","au":"t/030a14a2aaa9"},{"k":"ken","ja":"先日はすてきなお品をいただき、ありがとうございました。","hl":"いただき","vi":"Cảm ơn anh/chị đã tặng món quà đẹp hôm trước.","au":"t/8aae73e67b24"}]},{"id":"kv27","kind":"verb","b":"気に入る","son":["お気に召す"],"ken":[],"tei":["気に入ります"],"note":"","ex":[{"k":"son","ja":"新しいデザインはお気に召しましたか。","hl":"お気に召しました","vi":"Anh/chị có ưng ý mẫu thiết kế mới không ạ?","au":"t/9e1c3aee34cc"}]},{"id":"kv28","kind":"verb","b":"風邪を引く","son":["お風邪を召す"],"ken":[],"tei":["風邪を引きます"],"note":"","ex":[{"k":"son","ja":"お風邪を召されたと伺いましたが、いかがですか。","hl":"お風邪を召された","vi":"Nghe nói anh/chị bị cảm, giờ thấy thế nào rồi ạ?","au":"t/527bfa240ff1"}]},{"id":"kv29","kind":"verb","b":"風呂にはいる","son":["お風呂を召す"],"ken":[],"tei":["風呂にはいります"],"note":"","ex":[{"k":"son","ja":"お客様はただいまお風呂を召していらっしゃいます。","hl":"お風呂を召して","vi":"Quý khách hiện đang tắm ạ.","au":"t/e9eddd2eceb5"}]},{"id":"kv30","kind":"verb","b":"年をとる","son":["お年を召す"],"ken":[],"tei":["年をとります"],"note":"","ex":[{"k":"son","ja":"お年を召した方にも使いやすいデザインです。","hl":"お年を召した","vi":"Đây là thiết kế dễ dùng cả với người lớn tuổi.","au":"t/e555331e0e7a"}]},{"id":"kv31","kind":"verb","b":"着る","son":["召す","着られる","お召しになる"],"ken":["着させていただく","身につけさせていただく"],"tei":["着ます"],"note":"","ex":[{"k":"son","ja":"本日お召しになっているスーツ、よくお似合いです。","hl":"お召しになっている","vi":"Bộ vest anh/chị mặc hôm nay rất hợp ạ.","au":"t/10cbedb5e3e6"},{"k":"ken","ja":"本日は制服を着させていただきます。","hl":"着させていただきます","vi":"Hôm nay tôi xin phép mặc đồng phục.","au":"t/b2b54873587d"}]},{"id":"kv32","kind":"verb","b":"確認する","son":["確認なさる","確認される","ご確認くださる"],"ken":["確認いたす"],"tei":["確認します"],"note":"","ex":[{"k":"son","ja":"お手数ですが、内容をご確認ください。","hl":"ご確認ください","vi":"Phiền anh/chị kiểm tra nội dung giúp ạ.","au":"t/d096f7305c78"},{"k":"ken","ja":"日程について、担当者に確認いたします。","hl":"確認いたします","vi":"Về lịch trình, tôi sẽ xác nhận với người phụ trách.","au":"t/2c8dc3d6d9fd"}]},{"id":"kv33","kind":"verb","b":"借りる","son":["お借りになる","借りられる"],"ken":["お借りする","お借りいたす","拝借する"],"tei":["借ります"],"note":"","ex":[{"k":"son","ja":"会議室の鍵はどなたがお借りになりましたか。","hl":"お借りになりました","vi":"Ai đã mượn chìa khóa phòng họp ạ?","au":"t/fd0485767eaa"},{"k":"ken","ja":"ペンを拝借してもよろしいですか。","hl":"拝借して","vi":"Tôi mượn cây bút một chút được không ạ?","au":"t/5793f63ff42d"}]},{"id":"kv34","kind":"verb","b":"承諾する","son":["ご承諾になる","承諾される","ご承諾なさる","承諾なさる","ご承諾くださる"],"ken":["かしこまる","承諾いたす","承諾申し上げる","承諾させていただく"],"tei":["承諾します"],"note":"","ex":[{"k":"son","ja":"先方がこの条件をご承諾くださいました。","hl":"ご承諾くださいました","vi":"Phía đối tác đã chấp thuận điều kiện này.","au":"t/b9974b2f9013"},{"k":"ken","ja":"ご依頼の件、承諾いたしました。","hl":"承諾いたしました","vi":"Yêu cầu của anh/chị, chúng tôi đã chấp thuận.","au":"t/399c77d1ea06"}]},{"id":"kb1","kind":"biz","plain":"今日","biz":"本日","say":"ほんじつ","ex":[{"k":"biz","ja":"本日はお越しいただき、ありがとうございます。","hl":"本日","vi":"Cảm ơn quý vị hôm nay đã đến.","au":"t/5d0f7fff778a"}]},{"id":"kb2","kind":"biz","plain":"昨日（きのう）","biz":"昨日（さくじつ）","say":"さくじつ","ex":[{"k":"biz","ja":"昨日お送りした見積書をご確認ください。","hl":"昨日","say":"さくじつお送りした見積書をご確認ください。","vi":"Xin vui lòng kiểm tra bảng báo giá chúng tôi gửi hôm qua.","au":"t/62cf1b9d907e"}]},{"id":"kb3","kind":"biz","plain":"明日（あした）","biz":"明日（あす／みょうにち）","say":"あす","ex":[{"k":"biz","ja":"明日、改めてご連絡いたします。","hl":"明日","say":"あす、あらためてご連絡いたします。","vi":"Ngày mai tôi sẽ liên lạc lại.","au":"t/232e8cc515ca"}]},{"id":"kb4","kind":"biz","plain":"一昨日（おととい）","biz":"一昨日（いっさくじつ）","say":"いっさくじつ","ex":[{"k":"biz","ja":"一昨日、ご注文の品を発送いたしました。","hl":"一昨日","say":"いっさくじつ、ご注文の品を発送いたしました。","vi":"Hôm kia chúng tôi đã gửi hàng anh/chị đặt.","au":"t/c9ab66edd0f0"}]},{"id":"kb5","kind":"biz","plain":"明後日（あさって）","biz":"明後日（みょうごにち）","say":"みょうごにち","ex":[{"k":"biz","ja":"明後日の会議は午後二時からです。","hl":"明後日","say":"みょうごにちの会議は午後二時からです。","vi":"Cuộc họp ngày kia bắt đầu từ 2 giờ chiều.","au":"t/e1b6730f534f"}]},{"id":"kb6","kind":"biz","plain":"今度","biz":"このたび","say":"このたび","ex":[{"k":"biz","ja":"このたびは大変ご迷惑をおかけしました。","hl":"このたび","vi":"Lần này chúng tôi đã gây phiền phức rất nhiều cho quý khách.","au":"t/7b4d4fa5dd4a"}]},{"id":"kb7","kind":"biz","plain":"さっき","biz":"先ほど（さきほど）","say":"さきほど","ex":[{"k":"biz","ja":"先ほどお電話いたしました、山田でございます。","hl":"先ほど","vi":"Tôi là Yamada, người vừa gọi điện lúc nãy ạ.","au":"t/444b467c9ede"}]},{"id":"kb8","kind":"biz","plain":"前に","biz":"以前","say":"いぜん","ex":[{"k":"biz","ja":"以前お話しした件ですが、その後いかがでしょうか。","hl":"以前","vi":"Về việc tôi đã nói trước đây, sau đó tình hình thế nào rồi ạ?","au":"t/dc310ac12a6a"}]},{"id":"kb9","kind":"biz","plain":"後で","biz":"後ほど（のちほど）","say":"のちほど","ex":[{"k":"biz","ja":"後ほど担当者からご連絡いたします。","hl":"後ほど","vi":"Lát nữa người phụ trách sẽ liên lạc với anh/chị.","au":"t/84ca2c3f4525"}]},{"id":"kb10","kind":"biz","plain":"もうすぐ","biz":"まもなく","say":"まもなく","ex":[{"k":"biz","ja":"まもなく会議を始めます。","hl":"まもなく","vi":"Cuộc họp sắp bắt đầu.","au":"t/f54328b72f10"}]},{"id":"kb11","kind":"biz","plain":"です","biz":"でございます","say":"でございます","ex":[{"k":"biz","ja":"こちらが新製品でございます。","hl":"でございます","vi":"Đây là sản phẩm mới ạ.","au":"t/88c78f82a0c5"}]},{"id":"kb12","kind":"biz","plain":"ではありません","biz":"ではございません","say":"ではございません","ex":[{"k":"biz","ja":"こちらは当社の製品ではございません。","hl":"ではございません","vi":"Đây không phải là sản phẩm của công ty chúng tôi ạ.","au":"t/ec551da0a628"}]},{"id":"kb13","kind":"biz","plain":"あります","biz":"ございます","say":"ございます","ex":[{"k":"biz","ja":"二階に会議室がございます。","hl":"ございます","vi":"Trên tầng hai có phòng họp ạ.","au":"t/205f3a14bcf7"}]},{"id":"kb14","kind":"biz","plain":"ありません","biz":"ございません","say":"ございません","ex":[{"k":"biz","ja":"あいにく、ただいま在庫がございません。","hl":"ございません","vi":"Rất tiếc, hiện tại chúng tôi hết hàng.","au":"t/0fb2c2b06e5f"}]},{"id":"kb15","kind":"biz","plain":"ここ／そこ／あそこ","biz":"こちら／そちら／あちら","say":"こちら、そちら、あちら","ex":[{"k":"biz","ja":"受付はあちらでございます。","hl":"あちら","vi":"Quầy lễ tân ở đằng kia ạ.","au":"t/f60e64d5d8b2"}]},{"id":"kb16","kind":"biz","plain":"私（わたし）","biz":"私（わたくし）","say":"わたくし","ex":[{"k":"biz","ja":"私、営業部の田中と申します。","hl":"私","say":"わたくし、営業部の田中と申します。","vi":"Tôi là Tanaka, ở phòng kinh doanh.","au":"t/2adf612e92cd"}]},{"id":"kb17","kind":"biz","plain":"ごめんなさい","biz":"申し訳ありません／申し訳ございません","say":"もうしわけございません","ex":[{"k":"biz","ja":"お待たせして申し訳ございません。","hl":"申し訳ございません","vi":"Xin lỗi đã để anh/chị phải chờ.","au":"t/e15c91b847fe"}]},{"id":"kb18","kind":"biz","plain":"いいですか","biz":"よろしいでしょうか","say":"よろしいでしょうか","ex":[{"k":"biz","ja":"少しお時間よろしいでしょうか。","hl":"よろしいでしょうか","vi":"Anh/chị có chút thời gian không ạ?","au":"t/b5e3e1e1950b"}]},{"id":"ke1","kind":"err","wrong":"佐藤さんはおられますか？","right":"佐藤さんはいらっしゃいますか？","dis":["佐藤さんはおりますか？","佐藤さんは参られますか？","佐藤さんはおられますか？"],"note":"Theo chuẩn BJT / sách giáo khoa: おる là khiêm nhường ngữ, không dùng cho người khác dù thêm られる (おられる vẫn gặp ở miền Tây Nhật Bản, nhưng nên tránh trong bài thi).","ex":[]},{"id":"ke2","kind":"err","wrong":"鈴木様でございますか？","right":"鈴木様でいらっしゃいますか？","dis":["鈴木様でおられますか？","鈴木様でございますでしょうか？","鈴木様でございますか？"],"note":"でございます là thể lịch sự/khiêm nhường, khi hỏi về đối phương phải dùng でいらっしゃいます.","ex":[]},{"id":"ke3","kind":"err","wrong":"ご確認してください。","right":"ご確認ください。","dis":["ご確認いたしてください。","ご確認されてください。","ご確認してください。"],"note":"ご～する là khiêm nhường; khi nhờ đối phương dùng ご～ください.","ex":[]},{"id":"ke4","kind":"err","wrong":"（社外の人に対して）ただいま田中部長がおっしゃったように…","right":"（社外の人に対して）ただいま部長の田中が申したように…","dis":["（社外の人に対して）ただいま部長の田中がおっしゃったように…","（社外の人に対して）ただいま田中部長が申されたように…","（社外の人に対して）ただいま田中部長がおっしゃったように…"],"note":"Nói với người ngoài công ty thì người trong công ty mình là “phía mình”: bỏ chức danh sau tên, dùng khiêm nhường ngữ 申す.","ex":[]},{"id":"ke5","kind":"err","wrong":"資料は拝見されましたでしょうか。","right":"資料はご覧いただけましたでしょうか。","dis":["資料は拝見なさいましたでしょうか。","資料は拝見いただけましたでしょうか。","資料は拝見されましたでしょうか。"],"note":"拝見する là khiêm nhường ngữ, không dùng cho hành động của đối phương.","ex":[]},{"id":"ke6","kind":"err","wrong":"おっしゃられました","right":"おっしゃいました","dis":["申されました","言われられました","おっしゃられました"],"note":"おっしゃる đã là tôn kính ngữ, thêm られる thành kính ngữ kép (二重敬語).","ex":[]}];
 const DATA_AUDIO = {"なさる":"t/4be77d419e3b","される":"t/df34d6c48261","いたす":"t/4f2f7d8fbb49","させていただく":"t/cf7ada6de375","する":"t/4aa34648b67c","おっしゃる":"t/65cab626d358","言われる":"t/0a0d7e70572d","申す":"t/2430a43fa476","申し上げる":"t/d885de57d30a","言う":"t/e2329c277f51","行かれる":"t/b1c649c26abf","いらっしゃる":"t/5e30f1812446","おいでになる":"t/ea52b9035c62","お越しになる":"t/0c270a61195a","伺う":"t/ab1f20588214","参る":"t/ba450f99699e","行く":"t/638c386a4d8a","見える":"t/495032b4033a","来る":"t/71400c113af9","ご存じです":"t/7e4324c3ac85","存じる":"t/a05624812d6c","存じ上げる":"t/340404e3d767","承知する":"t/2ff91579c16d","知っている":"t/f158f6f20d8f","召し上がる":"t/180e06d7326a","いただく":"t/87a697c85586","頂戴する":"t/5eb2519266de","食べる":"t/21dac0842106","おる":"t/a171fa91014a","いる":"t/c7d693c51cc1","ご覧になる":"t/6209524a4b21","拝見する":"t/07437375c05d","見せていただく":"t/3372f1530a29","見る":"t/c88ba17eb422","お見せになる":"t/386ffc0cc38c","お示しになる":"t/5df986e15d3b","お見せする":"t/6e8c59e96e18","ご覧に入れる":"t/aceb082e204e","お目にかける":"t/7eb023876558","見せる":"t/fdb98a7a9fbd","お聞きになる":"t/a148b6876219","拝聴する":"t/8620aeabbc82","聞く":"t/abb639bc774f","お聞かせになる":"t/efd026f0fe14","お耳に入れる":"t/f2f3a0cc2143","聞かせる":"t/9a8cf8e8a8cb","お読みになる":"t/8ba907b62b54","拝読する":"t/91d721fd0971","読む":"t/7fc9b181f57e","お掛けになる":"t/e5d3ff99a7d6","座らせていただく":"t/eac2ac5b8d63","座る":"t/82f9b87241f1","お会いになる":"t/cc73cde50f9e","会われる":"t/a7be376fbf25","お目にかかる":"t/ab20f9caaa86","会う":"t/848921dea97e","お伝えになる":"t/0943abbe41c9","申し伝える":"t/22fede57bcb5","伝える":"t/7672d14409e6","お訪ねになる":"t/ab66f7b04e7c","訪ねられる":"t/2c495857a8ea","お訪ねする":"t/27ec56920b7f","お伺いする":"t/4e5e7fb1dcdc","参上する":"t/b03c185a5778","上がる":"t/59355004ece0","お邪魔する":"t/42e607ff0339","訪ねる":"t/6647a9adc756","おわかりになる":"t/6a9489a9c8cc","かしこまる":"t/17b0345bb422","わかる":"t/278ac6fcc5b8","お受け取りになる":"t/36afa56a1b94","拝受する":"t/3402328934f1","賜る":"t/b19af03fa347","受け取る":"t/e6ee89210381","ご利用になる":"t/ab5e07f742dd","利用なさる":"t/d9861a0775d4","利用させていただく":"t/0cef21abdf94","利用する":"t/e55b63052331","お思いになる":"t/be9cafb49f7a","おぼし召す":"t/8fbca6dd7282","拝察する":"t/6b04a6a77635","思う":"t/c5ea074db5ec","お求めになる":"t/adf9e98aa62e","お買い求めになる":"t/4ebca5b30163","お買いになる":"t/3618ca834464","お買い上げになる":"t/3c6e43187ed6","ご購入になる":"t/ff09cb4ac30d","買わせていただく":"t/7ae2a022211a","買う":"t/3dcc92b12e28","お考えになる":"t/932c7dcbe3b6","ご高察なさる":"t/92af5d78282c","ご高察くださる":"t/7a6fd696cd05","愚考する":"t/7df90e4e4af0","検討いたす":"t/94266a2a0c57","考える":"t/86e563184631","お待ちになる":"t/1717975ceeac","お待ちする":"t/684ca13d3eaf","待つ":"t/64df5a06852b","お帰りになる":"t/5d4ddca82514","帰られる":"t/b18cf22a3109","失礼する":"t/835730faa78c","帰る":"t/3a9f9a5edc18","お与えになる":"t/63d52a405ba2","差し上げる":"t/1ccf12084f3b","与える":"t/65a52adbd87c","お納めになる":"t/2ad8e5385a7f","もらう":"t/70851a939cbe","お気に召す":"t/416c0f5c50d2","気に入る":"t/572311a2c273","お風邪を召す":"t/f593fe223105","風邪を引く":"t/88eb61941e60","お風呂を召す":"t/aceb5764ada7","風呂にはいる":"t/03de15c467d5","お年を召す":"t/c6d8f1581781","年をとる":"t/9722abd76ad1","召す":"t/71c4c8774628","着られる":"t/c6aa3884a782","お召しになる":"t/06c08571cece","着させていただく":"t/f7cbca3acfe6","身につけさせていただく":"t/c14e503e5e8d","着る":"t/94959c02dce1","確認なさる":"t/815cc34b30ac","確認される":"t/706ee2e10761","ご確認くださる":"t/0177df4f3fd8","確認いたす":"t/02a624c79ff4","確認する":"t/b0f017d7af6f","お借りになる":"t/e85feaf83699","借りられる":"t/7dc072a3697f","お借りする":"t/c0a7b2a954f9","お借りいたす":"t/44cfcfd53096","拝借する":"t/6037518d3f12","借りる":"t/5ba9a2f65988","ご承諾になる":"t/3d574bab3f47","承諾される":"t/1153a6cee04e","ご承諾なさる":"t/0f12ad3777e9","承諾なさる":"t/2241b4301b2c","ご承諾くださる":"t/60f5050486be","承諾いたす":"t/5070293d5a48","承諾申し上げる":"t/22d0e4727528","承諾させていただく":"t/a174bd110e68","承諾する":"t/a874885e980c","ほんじつ":"t/274e92640342","さくじつ":"t/a10b45f8c4f3","あす":"t/eb8aff8087bf","いっさくじつ":"t/4dd4dac23e96","みょうごにち":"t/6a197690ad77","このたび":"t/e4e65cf4e316","さきほど":"t/94ba202b4412","いぜん":"t/1c82ebe1ef73","のちほど":"t/46503e3ab967","まもなく":"t/fcc3d439cd89","でございます":"t/2f2bc5b816a7","ではございません":"t/53a9a645ce0e","ございます":"t/8543421ac0af","ございません":"t/e07b79dec3c9","こちら、そちら、あちら":"t/7949d2d78075","わたくし":"t/0b74737b6e2e","もうしわけございません":"t/868f848cb73a","よろしいでしょうか":"t/cc53c1d1799f","佐藤さんはいらっしゃいますか？":"t/aa0e5b3c82b2","鈴木様でいらっしゃいますか？":"t/a6ff9d0d46a3","ご確認ください。":"t/ea1e746da999","ただいま部長の田中が申したように…":"t/abeb5fbffdd2","資料はご覧いただけましたでしょうか。":"t/77c9eb646d80","おっしゃいました":"t/9aa1b22b5627"};
+const FURI = {"部長は明日のゴルフをなさいますか。":[[0,2,"ぶちょう"],[3,5,"あす"]],"資料の準備は私がいたします。":[[0,2,"しりょう"],[3,5,"じゅんび"],[6,7,"わたくし"]],"社長がおっしゃったとおり、来月から新しい制度が始まります。":[[0,2,"しゃちょう"],[13,15,"らいげつ"],[17,18,"あたら"],[20,22,"せいど"],[23,24,"はじ"]],"営業部の山田と申します。":[[0,3,"えいぎょうぶ"],[4,6,"やまだ"],[7,8,"もう"]],"部長は何時ごろ大阪へいらっしゃいますか。":[[0,2,"ぶちょう"],[3,5,"いつ"],[7,9,"おおさか"]],"明日の午後、御社へ伺います。":[[0,2,"あす"],[3,5,"ごご"],[6,8,"おんしゃ"],[9,10,"うかが"]],"A社の田中様が見えました。":[[1,2,"しゃ"],[3,5,"たなか"],[5,6,"さま"],[7,8,"み"]],"担当の者がすぐに参りますので、少々お待ちください。":[[0,2,"たんとう"],[3,4,"もの"],[8,9,"まい"],[15,17,"しょうしょう"],[18,19,"ま"]],"この件について、何かご存じですか。":[[2,3,"けん"],[8,9,"なん"],[11,12,"ぞん"]],"お名前はかねてより存じ上げております。":[[1,3,"なまえ"],[9,10,"ぞん"],[11,12,"あ"]],"どうぞ、冷めないうちに召し上がってください。":[[4,5,"さ"],[11,12,"め"],[13,14,"あ"]],"おいしそうですね。では、遠慮なくいただきます。":[[12,14,"えんりょ"]],"明日の午後は会社にいらっしゃいますか。":[[0,2,"あす"],[3,5,"ごご"],[6,8,"かいしゃ"]],"本日は一日中、事務所におります。":[[0,2,"ほんじつ"],[3,4,"いち"],[4,5,"にち"],[5,6,"ちゅう"],[7,10,"じむしょ"]],"先日お送りした資料はご覧になりましたか。":[[0,2,"せんじつ"],[3,4,"おく"],[7,9,"しりょう"],[11,12,"らん"]],"企画書を拝見しました。":[[0,3,"きかくしょ"],[4,6,"はいけん"]],"田中様は会議で新しい試作品をお見せになりました。":[[0,2,"たなか"],[2,3,"さま"],[4,6,"かいぎ"],[7,8,"あたら"],[10,13,"しさくひん"],[15,16,"み"]],"新製品のサンプルをお目にかけます。":[[0,3,"しんせいひん"],[10,11,"め"]],"この話は、もう部長からお聞きになりましたか。":[[2,3,"はなし"],[7,9,"ぶちょう"],[12,13,"き"]],"少しお話を伺ってもよろしいでしょうか。":[[0,1,"すこ"],[3,4,"はなし"],[5,6,"うかが"]],"率直なご意見をお聞かせください。":[[0,2,"そっちょく"],[4,6,"いけん"],[8,9,"き"]],"ぜひ社長のお耳に入れておきたいことがございます。":[[2,4,"しゃちょう"],[6,7,"みみ"],[8,9,"い"]],"この本はもうお読みになりましたか。":[[2,3,"ほん"],[7,8,"よ"]],"先生のご著書を拝読しました。":[[0,2,"せんせい"],[4,6,"ちょしょ"],[7,9,"はいどく"]],"どうぞ、こちらにお掛けください。":[[9,10,"か"]],"では、こちらに座らせていただきます。":[[7,8,"すわ"]],"社長は昨日、A社の会長とお会いになりました。":[[0,2,"しゃちょう"],[3,5,"きのう"],[7,8,"しゃ"],[9,11,"かいちょう"],[13,14,"あ"]],"お目にかかれて光栄です。":[[1,2,"め"],[7,9,"こうえい"]],"この件は、もう皆さんにお伝えになりましたか。":[[2,3,"けん"],[7,8,"みな"],[12,13,"つた"]],"田中が戻りましたら、そのように申し伝えます。":[[0,2,"たなか"],[3,4,"もど"],[15,16,"もう"],[17,18,"つた"]],"どちらの方をお訪ねになりますか。":[[4,5,"ほう"],[7,8,"たず"]],"来週、改めてご挨拶にお伺いします。":[[0,2,"らいしゅう"],[3,4,"あらた"],[7,9,"あいさつ"],[11,12,"うかが"]],"会場までの道順はおわかりになりますか。":[[0,2,"かいじょう"],[5,7,"みちじゅん"]],"かしこまりました。すぐにお持ちします。":[[13,14,"も"]],"お荷物はもうお受け取りになりましたか。":[[1,3,"にもつ"],[7,8,"う"],[9,10,"と"]],"お送りいただいた資料、確かに拝受しました。":[[1,2,"おく"],[8,10,"しりょう"],[11,12,"たし"],[14,16,"はいじゅ"]],"こちらの会議室をご利用になりますか。":[[4,7,"かいぎしつ"],[9,11,"りよう"]],"御社のシステムを利用させていただいております。":[[0,1,"ご"],[1,2,"しゃ"],[8,10,"りよう"]],"この案について、どのようにお思いになりますか。":[[2,3,"あん"],[14,15,"おも"]],"大変ありがたく存じます。":[[0,2,"たいへん"],[7,8,"ぞん"]],"こちらの商品はどちらでお求めになりましたか。":[[4,6,"しょうひん"],[12,13,"もと"]],"では、こちらを二つ買わせていただきます。":[[7,8,"ふた"],[9,10,"か"]],"新しい企画について、部長はどうお考えになりますか。":[[0,1,"あたら"],[3,5,"きかく"],[10,12,"ぶちょう"],[16,17,"かんが"]],"ご提案の件は、社内で検討いたします。":[[1,3,"ていあん"],[4,5,"けん"],[7,9,"しゃない"],[10,12,"けんとう"]],"長い間お待ちになりましたか。":[[0,1,"なが"],[2,3,"あいだ"],[4,5,"ま"]],"ご連絡をお待ちしております。":[[1,3,"れんらく"],[5,6,"ま"]],"お客様はもうお帰りになりました。":[[1,3,"きゃくさま"],[7,8,"かえ"]],"では、本日はこれで失礼します。":[[3,5,"ほんじつ"],[9,11,"しつれい"]],"社長は優秀な社員に賞をお与えになりました。":[[0,2,"しゃちょう"],[3,5,"ゆうしゅう"],[6,8,"しゃいん"],[9,10,"しょう"],[12,13,"あた"]],"ご来場の皆様に記念品を差し上げます。":[[1,3,"らいじょう"],[4,5,"みな"],[5,6,"さま"],[7,10,"きねんひん"],[11,12,"さ"],[13,14,"あ"]],"心ばかりの品ですが、どうぞお納めください。":[[0,1,"こころ"],[5,6,"しな"],[14,15,"おさ"]],"先日はすてきなお品をいただき、ありがとうございました。":[[0,2,"せんじつ"],[8,9,"しな"]],"新しいデザインはお気に召しましたか。":[[0,1,"あたら"],[9,10,"き"],[11,12,"め"]],"お風邪を召されたと伺いましたが、いかがですか。":[[1,3,"かぜ"],[4,5,"め"],[9,10,"うかが"]],"お客様はただいまお風呂を召していらっしゃいます。":[[1,3,"きゃくさま"],[9,11,"ふろ"],[12,13,"め"]],"お年を召した方にも使いやすいデザインです。":[[1,2,"とし"],[3,4,"め"],[6,7,"ほう"],[9,10,"つか"]],"本日お召しになっているスーツ、よくお似合いです。":[[0,2,"ほんじつ"],[3,4,"め"],[18,20,"にあ"]],"本日は制服を着させていただきます。":[[0,2,"ほんじつ"],[3,5,"せいふく"],[6,7,"き"]],"お手数ですが、内容をご確認ください。":[[1,3,"てすう"],[7,9,"ないよう"],[11,13,"かくにん"]],"日程について、担当者に確認いたします。":[[0,2,"にってい"],[7,10,"たんとうしゃ"],[11,13,"かくにん"]],"会議室の鍵はどなたがお借りになりましたか。":[[0,3,"かいぎしつ"],[4,5,"かぎ"],[11,12,"か"]],"ペンを拝借してもよろしいですか。":[[3,5,"はいしゃく"]],"先方がこの条件をご承諾くださいました。":[[0,2,"せんぽう"],[5,7,"じょうけん"],[9,11,"しょうだく"]],"ご依頼の件、承諾いたしました。":[[1,3,"いらい"],[4,5,"けん"],[6,8,"しょうだく"]],"本日はお越しいただき、ありがとうございます。":[[0,2,"ほんじつ"],[4,5,"こ"]],"昨日お送りした見積書をご確認ください。":[[0,2,"きのう"],[3,4,"おく"],[7,10,"みつもりしょ"],[12,14,"かくにん"]],"明日、改めてご連絡いたします。":[[0,2,"あす"],[3,4,"あらた"],[7,9,"れんらく"]],"一昨日、ご注文の品を発送いたしました。":[[0,2,"いっさく"],[2,3,"ひ"],[5,7,"ちゅうもん"],[8,9,"しな"],[10,12,"はっそう"]],"明後日の会議は午後二時からです。":[[0,3,"みょうごにち"],[4,6,"かいぎ"],[7,9,"ごご"],[9,10,"に"],[10,11,"じ"]],"このたびは大変ご迷惑をおかけしました。":[[5,7,"たいへん"],[8,10,"めいわく"]],"先ほどお電話いたしました、山田でございます。":[[0,1,"さき"],[4,6,"でんわ"],[13,15,"やまだ"]],"以前お話しした件ですが、その後いかがでしょうか。":[[0,2,"いぜん"],[3,4,"はな"],[7,8,"けん"],[14,15,"ご"]],"後ほど担当者からご連絡いたします。":[[0,1,"のち"],[3,6,"たんとうしゃ"],[9,11,"れんらく"]],"まもなく会議を始めます。":[[4,6,"かいぎ"],[7,8,"はじ"]],"こちらが新製品でございます。":[[4,7,"しんせいひん"]],"こちらは当社の製品ではございません。":[[4,6,"とうしゃ"],[7,9,"せいひん"]],"二階に会議室がございます。":[[0,1,"に"],[1,2,"かい"],[3,6,"かいぎしつ"]],"あいにく、ただいま在庫がございません。":[[9,11,"ざいこ"]],"受付はあちらでございます。":[[0,2,"うけつけ"]],"私、営業部の田中と申します。":[[0,1,"わたくし"],[2,5,"えいぎょうぶ"],[6,8,"たなか"],[9,10,"もう"]],"お待たせして申し訳ございません。":[[1,2,"ま"],[6,7,"もう"],[8,9,"わけ"]],"少しお時間よろしいでしょうか。":[[0,1,"すこ"],[3,5,"じかん"]]};
+// ルビ: furigana trên chữ Hán của câu ví dụ (FURI tạo sẵn bởi tools/furigana.py); hl = [[đầu, cuối, 'mark'], ...] tô đậm một đoạn, không cắt ngang ruby
+const rb = (s, hl=[]) => {
+  const fu = FURI[s] || [], units = []; let pos = 0;
+  for(const [a,b,r] of fu){ for(;pos<a;pos++) units.push([pos,pos+1,null]); units.push([a,b,r]); pos=b; }
+  for(;pos<s.length;pos++) units.push([pos,pos+1,null]);
+  let out='', open=null;
+  for(const [a,b,r] of units){
+    const h = hl.find(([x,y])=>a<y && b>x) || null;
+    if(open && open!==h){ out+=`</${open[2]}>`; open=null; }
+    if(h && !open){ out+=`<${h[2]}>`; open=h; }
+    out += r ? `<ruby>${esc(s.slice(a,b))}<rt>${esc(r)}</rt></ruby>` : esc(s.slice(a,b));
+  }
+  return out + (open?`</${open[2]}>`:'');
+};
 /* ===================== modules ===================== */
 const MODULES = {};
 
-/* ---------------- Từ vựng ---------------- */
-if(MODULE==='vocab'){
+/* ---------------- Từ vựng (BJT; JLPT N2 dùng chung, bộ khác) ---------------- */
+if(MODULE==='vocab' || MODULE==='vocab-n2'){
+  const N2 = MODULE==='vocab-n2';
   const hasKanji = s => /[一-鿿々]/.test(s);
   const isKata = s => /^[゠-ヿー・Ａ-Ｚa-zA-Z0-9\s]+$/.test(s);
   const forms = w => { const out=[]; const m=w.match(/^(.*?)（(.*?)）(.*)$/);
@@ -564,16 +647,20 @@ if(MODULE==='vocab'){
 
   // vocab comes in sets ("bộ"): the 2200-word book (45 lessons) and the 600+ list. Items of the 2200 set keep group key = lesson
   // number, so progress saved before keeps working; items of another set carry v.set and use group key "set:lesson".
-  const setOf = v => v.set || '2200';
-  const groupOf = v => setOf(v)==='2200' ? String(v.l) : setOf(v)+':'+v.l;
+  const BASE = N2 ? 'n2' : '2200';
+  const setOf = v => v.set || BASE;
+  const groupOf = v => setOf(v)===BASE ? String(v.l) : setOf(v)+':'+v.l;
   const groups=[]; DATA.forEach(v=>{ const k=groupOf(v); if(!groups.some(g=>g.k===k)) groups.push({k, label:String(v.l), set:setOf(v)}); });
-  const SETS=[
+  const SETS=(N2 ? [
+    {k:'n2', label:'Từ vựng N2 theo bài', note:'122 bài', sub:'Mỗi lượt 20 câu, lấy từ các bài đã chọn. Danh sách từ theo lộ trình 122 bài; nghĩa và câu ví dụ tự soạn. Thanh xanh = tỉ lệ từ đã trả lời đúng ít nhất 1 lần.',
+     quick:[['1-30','Bài 1–30'],['31-60','Bài 31–60'],['61-90','Bài 61–90'],['91-122','Bài 91–122']]},
+  ] : [
     {k:'2200', label:'2200 từ BJT', note:'45 bài', sub:'Mỗi lượt 20 câu, lấy từ các bài đã chọn. 45 bài theo sách “Chinh phục từ vựng BJT”. Thanh xanh = tỉ lệ từ đã trả lời đúng ít nhất 1 lần.',
      quick:[['1-15','Bài 1–15'],['16-30','Bài 16–30'],['31-45','Bài 31–45']]},
     {k:'600', label:'600+ từ thường gặp', sub:'Tổng hợp 600+ từ vựng BJT thường gặp.', quick:[]},
-  ].map(s=>({...s, count:DATA.filter(v=>setOf(v)===s.k).length}));
-  MODULES.vocab = {
-    key:'vocab', name:'Từ vựng', title:'Ôn tập từ vựng', quizTitle:'Kiểm tra từ vựng', unit:'từ',
+  ]).map(s=>({...s, count:DATA.filter(v=>setOf(v)===s.k).length}));
+  MODULES[MODULE] = {
+    key:MODULE, name:N2?'Từ vựng N2':'Từ vựng', title:N2?'Ôn tập từ vựng N2':'Ôn tập từ vựng', quizTitle:N2?'Kiểm tra từ vựng N2':'Kiểm tra từ vựng', unit:'từ', exam:N2?'JLPT N2':'BJT',
     items: DATA,
     sets: SETS, setOfGroup: k => (groups.find(g=>g.k===k)||{}).set,
     groupTitle:'Chọn bài', groupSub:SETS[0].sub,
@@ -617,14 +704,14 @@ if(MODULE==='vocab'){
         options: shuffle([{t:hit.f,ok:true},...others(v,pool,3,o=>mainForm(o.w),o=>wordClass(o.w)===cls&&!s.includes(mainForm(o.w))&&!hit.f.includes(mainForm(o.w))&&!mainForm(o.w).includes(hit.f)).map(x=>({t:x,ok:false}))])};
     },
     explain(q,v,right){
-      const ex=v.ex.map((e,k)=>`<div class="ex"><div class="j jp">${esc(e[0])} ${spk(e[0],`e/${v.id}-${k}`)}</div><div class="v">${esc(e[1])}</div></div>`).join('');
+      const ex=v.ex.map((e,k)=>`<div class="ex"><div class="j jp">${rb(e[0])} ${spk(e[0],N2?null:`e/${v.id}-${k}`)}</div><div class="v">${esc(e[1])}</div></div>`).join('');
       return `<div class="explain ${right?'':'wrong'}">
-        <div class="w jp">${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}${spk(v.r||mainForm(v.w),'w/'+v.id)}</div>
+        <div class="w jp">${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}${spk(v.r||mainForm(v.w),N2?null:'w/'+v.id)}</div>
         <div class="m">${esc(v.m||'')}${v.s?' <span class="en">(～する)</span>':''}</div>
         <div class="en">${esc(v.en||'')} · Bài ${v.l}</div>${ex}</div>`;
     },
     summary: v => ({title:`${esc(v.w)}${v.r?`<small>「${esc(v.r)}」</small>`:''}`, sub:`${esc(shortMeaning(v.m||''))} · Bài ${v.l}`}),
-    autoplay: (q,v) => ({text:v.r||mainForm(v.w), key:'w/'+v.id}),
+    autoplay: (q,v) => ({text:v.r||mainForm(v.w), key:N2?null:'w/'+v.id}),
   };
 }
 
@@ -636,7 +723,9 @@ if(MODULE==='grammar'){
   const frags = p => p.replace(/^（.*?）/,'').replace(/（.*?）|\(.*?\)/g,'～').split(/[～〜…]|・・・/).map(x=>x.trim()).filter(Boolean);
   const fits = (p, line) => { let pos=0; for(const f of frags(p)){ const i=line.indexOf(f,pos); if(i<0) return false; pos=i+f.length; } return true; };
   const lineHTML = (v, li, mode) => { // mode: 'blank' | 'mark' | 'plain'
-    const s=v.lines[li][1]; if(mode==='plain'||!v.hit||v.hit[0]!==li) return esc(s);
+    const s=v.lines[li][1];
+    if(mode==='mark') return rb(s, v.hit&&v.hit[0]===li ? v.hit[1].map(([a,b])=>[a,b,'mark']) : []);  // giải thích: có ルビ
+    if(mode==='plain'||!v.hit||v.hit[0]!==li) return esc(s);
     let out='', pos=0;
     for(const [a,b] of v.hit[1]){ out+=esc(s.slice(pos,a)) + (mode==='blank'?'<span class="blank">&emsp;&emsp;</span>':`<mark>${esc(s.slice(a,b))}</mark>`); pos=b; }
     return out+esc(s.slice(pos)); };
@@ -690,7 +779,7 @@ if(MODULE==='keigo'){
   const au = t => (DATA_AUDIO[t]||null);
   const EXLBL = {son:'Tôn kính', ken:'Khiêm nhường', biz:'Công sở'};
   const exHTML = v => (v.ex&&v.ex.length) ? `<div class="kex"><div class="kex-h">Ví dụ</div>${v.ex.map(e=>{
-      const i=e.ja.indexOf(e.hl), ja = i<0 ? esc(e.ja) : esc(e.ja.slice(0,i))+`<mark>${esc(e.hl)}</mark>`+esc(e.ja.slice(i+e.hl.length));
+      const i=e.ja.indexOf(e.hl), ja = rb(e.ja, i<0 ? [] : [[i, i+e.hl.length, 'mark']]);
       return `<div class="kex-i"><span class="kex-t ${e.k}">${EXLBL[e.k]||''}</span><div><div class="jp">${ja} ${spk(e.say||e.ja,e.au)}</div><div class="v">${esc(e.vi)}</div></div></div>`;
     }).join('')}</div>` : '';
   const verbTable = v => `<table class="kt"><tr><th>Thể thường</th><td class="jp">${esc(v.b)}</td></tr>
@@ -773,6 +862,85 @@ if(MODULE==='keigo'){
     },
   };
 }
+
+/* ---------------- Ngữ pháp JLPT N2: 14 bài theo sơ đồ tư duy Thảo Lê JP ---------------- */
+if(MODULE==='grammar-n2'){
+  const LESSONS=[...new Set(DATA.map(v=>v.bai))];
+  const groups=LESSONS.map(b=>({k:String(b),label:'Bài '+b}));
+  const core = p => p.replace(/[〜~（）()\s]/g,'');
+  // mẫu cùng hình thức / gần nghĩa (khai báo hai chiều) không được làm đáp án nhiễu của nhau
+  const simOf = Object.fromEntries(DATA.map(v=>[v.id,new Set([v.id,...(v.similar||[])])]));
+  for(const v of DATA) for(const o of v.similar||[]) if(simOf[o]) simOf[o].add(v.id);
+  const distract = (v, pool, key, exclude=()=>false) => {
+    const ok = o => !simOf[v.id].has(o.id) && core(o.p)!==core(v.p) && o[key]!==v[key] && !exclude(o);
+    let d = pickN(pool.filter(ok).map(o=>o[key]),3,[v[key]]);
+    if(d.length<3) d=d.concat(pickN(DATA.filter(ok).map(o=>o[key]),3-d.length,[v[key],...d]));
+    return d;
+  };
+  const exLine = e => `<div class="ex"><div class="j jp">${rb(e.ja, e.hit?[[e.hit[0],e.hit[1],'mark']]:[])} ${spk(e.ja,e.au)}</div><div class="v">${esc(e.vi)}</div></div>`;
+  // withM: phần giải thích cần nhắc lại nghĩa; trong sơ đồ nghĩa đã nằm ngay cạnh mẫu
+  const noteHTML = (v, withM=true) => (v.kt||withM ? `<dl class="gnote">${v.kt?`<dt>Cấu trúc</dt><dd class="jp">${esc(v.kt)}</dd>`:''}${withM?`<dt>Nghĩa</dt><dd>${esc(v.m)}</dd>`:''}</dl>` : '')
+    + (v.note?`<p class="mm-note">${esc(v.note)}</p>`:'');
+  MODULES['grammar-n2'] = {
+    key:'grammar-n2', exam:'JLPT N2', name:'Ngữ pháp N2', title:'Ôn tập ngữ pháp N2', quizTitle:'Kiểm tra ngữ pháp N2', unit:'mẫu',
+    items: DATA,
+    groupTitle:'Chọn bài', groupSub:`${DATA.length} mẫu ngữ pháp N2, ${LESSONS.length} bài theo sơ đồ tư duy. Mỗi lượt tối đa 20 câu.`,
+    groups, groupOf: v=>String(v.bai),
+    quick:[['all','Chọn tất cả'],['none','Bỏ chọn'],['1-7','Bài 1–7'],['8-14','Bài 8–14']],
+    select: k => k==='all'?groups.map(g=>g.k) : k==='none'?[] : groups.filter(g=>{ const [a,b]=k.split('-').map(Number); return +g.k>=a&&+g.k<=b; }).map(g=>g.k),
+    types:[
+      {k:'dien', label:'Điền mẫu · 文法', name:'Điền mẫu vào câu', desc:'Chọn mẫu ngữ pháp hợp với chỗ trống trong câu ví dụ'},
+      {k:'nghia', label:'Ý nghĩa · 意味', name:'Chọn nghĩa', desc:'Mẫu ngữ pháp → nghĩa tiếng Việt'},
+      {k:'sao', label:'Sắp xếp ★ · 並べ替え', name:'Sắp xếp câu ★', desc:'Xếp 4 mảnh thành câu đúng, chọn mảnh ở ô ★ (dạng đề JLPT)'},
+    ],
+    canDo: (t,v) => t==='nghia' ? !!v.m : t==='sao' ? !!(v.star&&v.star.parts&&v.star.parts.length===4) : v.ex.some(e=>e.hit),
+    build(t,v,pool){
+      if(t==='sao'){ const st=v.star, slot=k=>`<span class="blank star-slot">${k===2?'★':'&emsp;'}</span>`;
+        return {ask:'Sắp xếp 4 mảnh thành câu đúng. Mảnh nào nằm ở ô ★?', star:st, optClass:'long',
+          stem:`<div class="sent jp">${esc(st.pre)}${[0,1,2,3].map(slot).join(' ')}${esc(st.post)}</div>
+            <div class="tr hint hidden">${esc(st.vi)}</div><button class="mini" data-reveal>Gợi ý: xem bản dịch</button>`,
+          options: shuffle(st.parts.map((x,k)=>({t:x,ok:k===2})))}; }
+      if(t==='nghia') return {ask:'Mẫu ngữ pháp này có nghĩa là gì?', stem:`<div class="bigword jp">${esc(v.p)}</div>`,
+        optClass:'vi', options: shuffle([{t:v.m,ok:true},...distract(v,pool,'m').map(x=>({t:x,ok:false}))])};
+      const exs=v.ex.filter(e=>e.hit), e=exs[Math.random()*exs.length|0], [a,b]=e.hit;
+      // không đưa mẫu nhiễu có chữ đã nằm sẵn trong câu (vd 〜上 khi câu đã có 上)
+      const d = distract(v,pool,'p', o=>e.ja.includes(core(o.p).split(/[／・/]/)[0]));
+      return {ask:'Chọn mẫu ngữ pháp thích hợp điền vào chỗ trống.', ex:e,
+        stem:`<div class="sent jp">${esc(e.ja.slice(0,a))}<span class="blank">&emsp;&emsp;</span>${esc(e.ja.slice(b))}</div>
+          <div class="tr hint hidden">${esc(e.vi)}</div><button class="mini" data-reveal>Gợi ý: xem bản dịch</button>`,
+        options: shuffle([{t:v.p,ok:true},...d.map(x=>({t:x,ok:false}))])};
+    },
+    explain(q,v,right){
+      const exs = q.ex ? [q.ex, ...v.ex.filter(e=>e!==q.ex)] : v.ex;
+      // câu ★: hiện cả câu đúng thứ tự, đánh số 1–4 từng mảnh, mảnh ★ tô vàng
+      const starHTML = q.star ? `<div class="ex star-ans"><div class="j jp">${esc(q.star.pre)}${q.star.parts.map((x,k)=>`<span class="sp${k===2?' on':''}"><i>${k===2?'★':k+1}</i>${esc(x)}</span>`).join('')}${esc(q.star.post)}</div><div class="v">${esc(q.star.vi)}</div></div>` : '';
+      return `<div class="explain ${right?'':'wrong'}"><div class="w jp">${esc(v.p)} <small>Bài ${v.bai} · ${String(v.n).padStart(2,'0')}</small></div>
+        ${starHTML}${noteHTML(v)}${exs.map(exLine).join('')}</div>`;
+    },
+    summary: v => ({title:esc(v.p), sub:`${esc(v.m)} · Bài ${v.bai}`}),
+  };
+  // sơ đồ tư duy ở đầu trang: mỗi bài một nhánh, bấm mẫu để mở cấu trúc + ví dụ
+  let mapBai = null, open = null;
+  MODULES['grammar-n2'].renderMap = () => {
+    if(mapBai===null){ mapBai=+store.get('n2map', LESSONS[0]); if(!LESSONS.includes(mapBai)) mapBai=LESSONS[0]; }  // store có sau khi app.js chạy
+    const P=$('#mapPanel'); P.classList.remove('hidden');
+    const items=DATA.filter(v=>v.bai===mapBai);
+    P.innerHTML = `<h2>Sơ đồ tư duy</h2><p class="sub">Chọn bài để xem toàn bộ mẫu. Bấm vào một mẫu để xem cấu trúc và câu ví dụ.</p>
+      <div class="series" id="mmTabs">${LESSONS.map(b=>`<button class="stab ${b===mapBai?'on':''}" data-mm-bai="${b}">Bài ${b}<small>${DATA.filter(v=>v.bai===b).length}</small></button>`).join('')}</div>
+      <div class="mm"><div class="mm-root"><span>BÀI</span><b>${mapBai}</b></div>
+        <ol class="mm-list">${items.map((v,i)=>`<li class="mm-row c${i%6} ${open===v.id?'open':''}">
+          <button class="mm-node" data-mm="${v.id}" aria-expanded="${open===v.id}"><span class="mm-n">${String(v.n).padStart(2,'0')}</span><span class="mm-p jp">${esc(v.p)}</span><span class="mm-m">${esc(v.m)}</span></button>
+          ${open===v.id?`<div class="mm-detail">${v.ex.length?`<div class="mm-tools">${rubyBtn()}</div>`:''}${noteHTML(v,false)}${v.ex.map(exLine).join('')||'<p class="mm-note">Chưa có câu ví dụ.</p>'}</div>`:''}</li>`).join('')}</ol></div>
+      <div class="row mm-go"><button class="btn" data-mm-go="${mapBai}">Ôn bài ${mapBai} · ${items.length} mẫu</button></div>`;
+    const on=P.querySelector('#mmTabs .stab.on'); if(on) on.parentNode.scrollLeft = on.offsetLeft - on.parentNode.offsetLeft - (on.parentNode.clientWidth - on.offsetWidth)/2;
+    P.onclick = e => {
+      const b=e.target.closest('[data-mm],[data-mm-bai],[data-mm-go]'); if(!b) return;
+      if(b.dataset.mmBai){ mapBai=+b.dataset.mmBai; open=null; store.set('n2map',mapBai); MODULES['grammar-n2'].renderMap(); }
+      else if(b.dataset.mm){ open = open===b.dataset.mm ? null : b.dataset.mm; MODULES['grammar-n2'].renderMap(); }
+      else if(b.dataset.mmGo){ prefs.groups=[b.dataset.mmGo]; renderSetup(); startSession(chooseItems(poolFor(prefs.groups),prefs.types,prefs.mode)); }
+    };
+  };
+}
 /* ===================== shared engine ===================== */
 const N_Q = 20;
 const MODES = [{k:'weak',label:'Ưu tiên câu yếu'},{k:'rand',label:'Ngẫu nhiên'},{k:'order',label:'Theo thứ tự'}];
@@ -786,6 +954,9 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const shuffle = a => { a=a.slice(); for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]];} return a; };
 const pickN = (list, n, exclude) => { const seen=new Set(exclude); const out=[]; for(const x of shuffle(list)){ if(out.length>=n) break; if(!x||seen.has(x)) continue; seen.add(x); out.push(x);} return out; };
 
+// nút ルビ: bật/tắt furigana trên câu ví dụ, nhớ lựa chọn cho mọi trang (lớp noruby đặt sớm trong shell.html)
+const rubyOn = () => !document.documentElement.classList.contains('noruby');
+const rubyBtn = () => `<button class="rubybtn ${rubyOn()?'on':''}" data-ruby aria-pressed="${rubyOn()}" title="Bật/tắt furigana">ルビ</button>`;
 const M = MODULES[MODULE];
 const ITEMS = M.items;
 const byId = Object.fromEntries(ITEMS.map(v=>[v.id,v]));
@@ -885,7 +1056,8 @@ function render(){
     return `<button class="${c}" data-opt="${k}" ${lk?'disabled':''}><span class="n">${LETTERS[k]}</span><span class="t ${q.optClass||'jp'}">${esc(o.t)}</span></button>`;
   }).join('');
   const right = S.ans[i]!==null && q.options[S.ans[i]].ok;
-  $('#explain').innerHTML = lk ? M.explain(q, byId[q.id], right).replace(/^(<div class="explain[^>]*>)/, `$1<div class="verdict">${S.ans[i]===null?'Chưa trả lời':right?'✓ Chính xác':'✗ Chưa đúng'}</div>`) : '';
+  const ex = lk ? M.explain(q, byId[q.id], right) : '';
+  $('#explain').innerHTML = lk ? ex.replace(/^(<div class="explain[^>]*>)/, `$1<div class="verdict"><span>${S.ans[i]===null?'Chưa trả lời':right?'✓ Chính xác':'✗ Chưa đúng'}</span>${ex.includes('<ruby>')?rubyBtn():''}</div>`) : '';
   $('#prevBtn').disabled = i===0;
   const last = i===n-1;
   $('#nextBtn').textContent = S.done ? (last?'Xem kết quả':'Câu tiếp →') : (last?'Nộp bài':'Câu tiếp →');
@@ -953,6 +1125,7 @@ function show(id){
   window.scrollTo(0,0);
 }
 function renderSetup(){
+  if(M.renderMap) M.renderMap();
   const set = M.sets && M.sets.find(s=>s.k===prefs.set);
   if(set) $('#sets').innerHTML=M.sets.map(s=>s.count
     ? `<button class="stab ${s.k===set.k?'on':''}" data-set="${s.k}">${s.label}<small>${s.note||s.count+' từ'}</small></button>`
@@ -988,6 +1161,8 @@ document.addEventListener('click',e=>{
   else if(d.go!==undefined){ go(+d.go); }
   else if(d.opt!==undefined){ choose(+d.opt); }
   else if(d.say){ say(d.say, d.audio); }
+  else if(d.ruby!==undefined){ document.documentElement.classList.toggle('noruby'); store.set('ruby',rubyOn());
+    document.querySelectorAll('[data-ruby]').forEach(b=>{ b.classList.toggle('on',rubyOn()); b.setAttribute('aria-pressed',rubyOn()); }); }
   else if(d.reveal!==undefined){ document.querySelectorAll('#stem .tr').forEach(x=>x.classList.remove('hidden')); t.remove(); }
   else if(d.rf){ rFilter=d.rf; showResult(); }
   else if(d.review!==undefined){ show('quiz'); go(+d.review); }
@@ -1031,7 +1206,7 @@ document.addEventListener('keydown',e=>{
   else if(e.key==='ArrowRight'||e.key==='Enter') next();
   else if(e.key==='ArrowLeft') go(S.cur-1);
 });
-document.title = M.title + ' BJT';
+document.title = M.title + ' ' + (M.exam||'BJT');
 renderSetup();
 
 </script>
