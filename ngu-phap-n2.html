@@ -705,6 +705,7 @@ if(MODULE==='vocab' || MODULE==='vocab-n2' || MODULE==='vocab-n3'){
   const stem = w => mainForm(w).replace(/[ぁ-ん]+$/,'');
   const clash = (v,o) => {
     if(!o.m) return true;
+    if((v.syn||[]).includes(o.w) || (o.syn||[]).includes(v.w)) return true;   // đồng nghĩa thật (syn_groups.json): không làm nhiễu của nhau
     const a=parts(v.m), b=parts(o.m), am=v.m.toLowerCase(), bm=o.m.toLowerCase();
     if(a.some(x=>b.includes(x)) || b.some(x=>am.includes(x)) || a.some(x=>bm.includes(x))) return true;
     const sv=stem(v.w), so=stem(o.w); if(sv && sv===so && hasKanji(sv)) return true;
