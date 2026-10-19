@@ -261,6 +261,10 @@ mark{background:linear-gradient(transparent 62%,var(--hl) 62%);color:inherit;fon
   .series::-webkit-scrollbar{display:none} .stab{flex:0 0 auto;white-space:nowrap} }
 
 .hero{padding:18px 0 6px}
+/* banner = link sang kênh YouTube */
+a.hero{display:block;color:inherit;text-decoration:none}
+.hero .yt{display:inline-block;margin-top:12px;font-size:13px;font-weight:500;letter-spacing:.03em;padding:5px 12px;border-radius:3px;border:1px solid rgba(255,255,255,.35);color:#fbfaf5;transition:background .15s}
+a.hero:hover .yt,a.hero:focus-visible .yt{background:rgba(255,255,255,.14)}
 /* menu kỳ thi: BJT / JLPT, mỗi menu một nhóm thẻ (.exam) */
 .exams{display:flex;gap:8px;margin-top:18px}
 .exams .stab{padding:9px 20px;font-size:15px}
@@ -584,7 +588,7 @@ mark rt{font-weight:400}
   <button class="iconbtn" id="themeBtn" title="Đổi giao diện sáng/tối">◐</button>
 </header>
 <main class="wrap"><div class="col">
-  <div class="hero"><p class="eyebrow">BJT · JLPT — 日本語の練習</p><div class="tate" lang="ja">毎日、<b>少しずつ</b>。</div><h2>Hôm nay luyện phần nào?</h2><p id="heroP"></p></div>
+  <a class="hero" href="https://www.youtube.com/@nihongo-rakuraku" target="_blank" rel="noopener" title="Kênh YouTube nihongo-rakuraku"><p class="eyebrow">BJT · JLPT — 日本語の練習</p><div class="tate" lang="ja">毎日、<b>少しずつ</b>。</div><h2>Hôm nay luyện phần nào?</h2><p id="heroP"></p><span class="yt">▶ YouTube · @nihongo-rakuraku</span></a>
   <div class="exams" id="exams">
     <button class="stab" data-exam="bjt">BJT<small>ビジネス日本語</small></button>
     <button class="stab" data-exam="jlpt">JLPT</button>
@@ -612,7 +616,7 @@ mark rt{font-weight:400}
       <div class="arrow">→</div></a>
   </div>
   <!-- JLPT đang chuẩn bị, chia theo cấp N3 / N2: mở phần nào thì đổi <div class="tile soon"> thành <a class="tile" href="..."> -->
-  <div class="exam" data-exam="jlpt" data-hero="Chia theo cấp N3 và N2. Đã có từ vựng và ngữ pháp cho cả hai cấp, đọc hiểu và nghe hiểu sẽ mở dần.">
+  <div class="exam" data-exam="jlpt" data-hero="Nghe hội thoại theo bài, rồi ôn bằng trắc nghiệm.">
     <div class="levels" id="levels">
       <button class="pill" data-level="n3">N3<small>中級</small></button>
       <button class="pill" data-level="n2">N2<small>中上級</small></button>
