@@ -259,6 +259,22 @@ mark{background:linear-gradient(transparent 62%,var(--hl) 62%);color:inherit;fon
 /* điện thoại: một hàng, vuốt ngang (tab đang chọn tự cuộn vào giữa) */
 @media (max-width:640px){ .series{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .series::-webkit-scrollbar{display:none} .stab{flex:0 0 auto;white-space:nowrap} }
+/* thông báo video nghe từ vựng (trang Từ vựng) */
+.notice{margin:18px 0 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:8px;background:var(--card);color:var(--ink);text-decoration:none;font-size:14.5px;line-height:1.55}
+.notice:hover,.notice:focus-visible{background:var(--accent-soft)}
+.nfx{position:relative;flex:0 0 auto;display:inline-flex}
+.nbadge{position:relative;z-index:1;background:var(--bad);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:.08em;padding:2px 8px;border-radius:4px;animation:npop 1s ease-in-out infinite}
+/* pháo hoa: tia sọc mảnh nhiều màu bắn ra từ sau nhãn NEW, 2 chùm lệch nhau, chớp nháy */
+.nfx::before,.nfx::after{content:'';position:absolute;left:50%;top:50%;width:84px;height:84px;margin:-42px 0 0 -42px;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from -1deg,#e8382d 0deg 2.5deg,transparent 2.5deg 30deg,#f4b400 30deg 32.5deg,transparent 32.5deg 60deg,#165e83 60deg 62.5deg,transparent 62.5deg 90deg,#2f9e5b 90deg 92.5deg,transparent 92.5deg 120deg,#e85d9a 120deg 122.5deg,transparent 122.5deg 150deg,#ff8a00 150deg 152.5deg,transparent 152.5deg 180deg,#e8382d 180deg 182.5deg,transparent 182.5deg 210deg,#f4b400 210deg 212.5deg,transparent 212.5deg 240deg,#165e83 240deg 242.5deg,transparent 242.5deg 270deg,#2f9e5b 270deg 272.5deg,transparent 272.5deg 300deg,#e85d9a 300deg 302.5deg,transparent 302.5deg 330deg,#ff8a00 330deg 332.5deg,transparent 332.5deg 360deg);-webkit-mask:radial-gradient(circle,transparent 34%,#000 36%,#000 60%,transparent 62%);mask:radial-gradient(circle,transparent 34%,#000 36%,#000 60%,transparent 62%);animation:nstreak 1s ease-out infinite}
+.nfx::after{background:conic-gradient(from -1deg,#ff8a00 0deg 2.5deg,transparent 2.5deg 30deg,#e85d9a 30deg 32.5deg,transparent 32.5deg 60deg,#2f9e5b 60deg 62.5deg,transparent 62.5deg 90deg,#165e83 90deg 92.5deg,transparent 92.5deg 120deg,#f4b400 120deg 122.5deg,transparent 122.5deg 150deg,#e8382d 150deg 152.5deg,transparent 152.5deg 180deg,#ff8a00 180deg 182.5deg,transparent 182.5deg 210deg,#e85d9a 210deg 212.5deg,transparent 212.5deg 240deg,#2f9e5b 240deg 242.5deg,transparent 242.5deg 270deg,#165e83 270deg 272.5deg,transparent 272.5deg 300deg,#f4b400 300deg 302.5deg,transparent 302.5deg 330deg,#e8382d 330deg 332.5deg,transparent 332.5deg 360deg);transform:rotate(15deg);animation-name:nstreak2;animation-delay:.5s}
+@keyframes nstreak{0%{transform:scale(.35);opacity:0}10%{opacity:1}25%{opacity:.25}40%{opacity:1}55%{opacity:.3}70%{opacity:.9}100%{transform:scale(1.15);opacity:0}}
+@keyframes nstreak2{0%{transform:rotate(15deg) scale(.35);opacity:0}10%{opacity:1}25%{opacity:.25}40%{opacity:1}55%{opacity:.3}70%{opacity:.9}100%{transform:rotate(15deg) scale(1.15);opacity:0}}
+@keyframes npop{0%,100%{transform:scale(1)}10%{transform:scale(1.12)}20%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.nbadge{animation:none}.nfx::before,.nfx::after{display:none}}
+.ntext{flex:1 1 280px;color:var(--bad);font-weight:600}
+.nsoon{opacity:.8;white-space:nowrap}
+.ngo{flex:0 0 auto;color:var(--accent);font-weight:600;white-space:nowrap}
 
 .hero{padding:18px 0 6px}
 /* banner = link sang kênh YouTube */
